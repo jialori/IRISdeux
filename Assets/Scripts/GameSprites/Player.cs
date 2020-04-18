@@ -13,7 +13,9 @@ public class Player : MonoBehaviour, ISubject, IObserver
 
 	private Vector2 targetPos;
 
-    Animator animator;
+    private Animator animator;
+
+    private bool pause;
 
     void Start()
     {
@@ -26,6 +28,8 @@ public class Player : MonoBehaviour, ISubject, IObserver
     // Update is called once per frame
     void Update()
     {
+        if (pause) return;
+
         if (Input.GetKeyDown(KeyCode.UpArrow) && transform.position.y < yMax) {
         	targetPos = new Vector2(transform.position.x, transform.position.y + yIncrement);
 	    	transform.position = Vector2.MoveTowards(transform.position, targetPos, speed * Time.deltaTime);
@@ -83,13 +87,20 @@ public class Player : MonoBehaviour, ISubject, IObserver
                 switch (GameLoop.State)
                 {
                     case InGameState state_ingame:
-                        animator.enabled = true;
+                        Activate(true);
                         break;
                     default:
-                        animator.enabled = false;
+                        Activate(false);
                         break;
                 }
                 break;
         }
     }
+
+    private void Activate(bool b)
+    {
+        pause = !b;
+        animator.enabled = b;
+    }
+
 }

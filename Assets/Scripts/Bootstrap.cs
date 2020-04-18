@@ -7,6 +7,7 @@ public class Bootstrap : MonoBehaviour
 {
     void Awake()
     {
-        SceneManager.LoadScene("StartMenu", LoadSceneMode.Additive);
+    	if (!SceneManager.GetSceneByBuildIndex(0).isLoaded)
+	        SceneManager.LoadScene("StartMenu", LoadSceneMode.Additive);
     }
 }
