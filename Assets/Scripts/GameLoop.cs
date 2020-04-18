@@ -55,6 +55,7 @@ public class GameLoop : MonoBehaviour, ISubject
 	public static GameState State 
 	{
 		get => _state;
+		// For triggered UI buttons to set game states
 		set 
 		{
 			if (value != _state)
@@ -84,8 +85,8 @@ public class GameLoop : MonoBehaviour, ISubject
 
 		dirty = false;
 
-		_state = GameState.aniState; // will set dirty to true
-    	_state.HandleInput(this);
+		State = GameState.aniState; // will set dirty to true
+    	State.HandleInput(this);
 
 	}
 

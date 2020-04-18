@@ -75,5 +75,21 @@ public class Player : MonoBehaviour, ISubject, IObserver
 
 
     public void UpdateOnChange(ISubject subject) 
-    {}
+    {
+        switch (subject)
+        {
+            case GameLoop gp:
+                Debug.Log("state change notified");
+                switch (GameLoop.State)
+                {
+                    case InGameState state_ingame:
+                        animator.enabled = true;
+                        break;
+                    default:
+                        animator.enabled = false;
+                        break;
+                }
+                break;
+        }
+    }
 }

@@ -13,11 +13,12 @@ public class Spawner : MonoBehaviour, IObserver
 	public float minTimeBtwSpawn = 0.65f;
 	// public float speed;
 
-    private bool pause = false;
+    private bool pause;
 
     void Start()
     {
         GameLoop.Instance.Attach(this);
+        pause = true;
     }
 
     void Update()
