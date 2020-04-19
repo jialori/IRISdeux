@@ -13,7 +13,6 @@ public class StartMenuButtons : MonoBehaviour
 	void Awake()
 	{
 		int curLevel = GetCurrentLevelBuildIdx();
-		Debug.Log(curLevel);
 		if (curLevel == -1) {
 			SceneManager.LoadSceneAsync(firstLevelBuildIndex, LoadSceneMode.Additive);
 			StartMenuButtons.level = firstLevelBuildIndex;			
@@ -35,26 +34,20 @@ public class StartMenuButtons : MonoBehaviour
     {
     	if (StartMenuButtons.level == -1) return;
 
-    	Debug.Log(StartMenuButtons.level);
     	SceneManager.UnloadSceneAsync(StartMenuButtons.level);
     	int nxtLevel = GetNextLevelBuildIdx();
     	StartMenuButtons.level = nxtLevel;
     	SceneManager.LoadSceneAsync(nxtLevel, LoadSceneMode.Additive);
-    	Debug.Log(StartMenuButtons.level);
-    	// EditorSceneManager.MoveSceneBefore(SceneManager.GetSceneByBuildIndex(0),SceneManager.GetSceneByBuildIndex(nxtLevel));
     }
 
     public void ToLastLevel() 
     {
     	if (StartMenuButtons.level == -1) return;
 
-    	Debug.Log(StartMenuButtons.level);
     	SceneManager.UnloadSceneAsync(StartMenuButtons.level);
     	int lastLevel = GetLastLevelBuildIdx();
     	StartMenuButtons.level = lastLevel;
     	SceneManager.LoadSceneAsync(lastLevel, LoadSceneMode.Additive);
-    	Debug.Log(StartMenuButtons.level);
-    	// EditorSceneManager.MoveSceneBefore(SceneManager.GetSceneByBuildIndex(0),SceneManager.GetSceneByBuildIndex(lastLevel));
     }
 
     private int GetCurrentLevelBuildIdx()

@@ -11,10 +11,10 @@ public class Player : MonoBehaviour, ISubject, IObserver
 	public float yMin;
 	public float yMax;
 
-	private Vector2 targetPos;
+    // todo: This should not be recorded here - have a LevelRecord that stores player, score, progress, etc.
+    public float score;
 
     private Animator animator;
-
     private bool pause;
 
     void Start()
@@ -30,6 +30,7 @@ public class Player : MonoBehaviour, ISubject, IObserver
     {
         if (pause) return;
 
+        Vector2 targetPos;
         if (Input.GetKeyDown(KeyCode.UpArrow) && transform.position.y < yMax) {
         	targetPos = new Vector2(transform.position.x, transform.position.y + yIncrement);
 	    	transform.position = Vector2.MoveTowards(transform.position, targetPos, speed * Time.deltaTime);
@@ -46,6 +47,13 @@ public class Player : MonoBehaviour, ISubject, IObserver
     {
     	health -= 1;
     	Notify();
+    }
+
+
+    public void IncrementScore(int value)
+    {
+        score += 1;
+        Notify();
     }
 
 	// ============ Subcriber Pattern ============
