@@ -118,6 +118,8 @@ public class GameLoop : MonoBehaviour, ISubject
     // Detach an observer from the subject.
     public void Detach(IObserver observer)
     {
+        // Debug.Log("something detached");
+
         this._observers.Remove(observer);
     }
 

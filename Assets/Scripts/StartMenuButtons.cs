@@ -5,7 +5,7 @@ public class StartMenuButtons : MonoBehaviour
 {
 	// Assume that the last series of build scenes are Level scenes,
 	// and the first Level scene starts at this index.
-	private int firstLevelBuildIndex = 1; // ToBeSet
+	private int firstLevelBuildIndex = 2; // ToBeSet
 
 	// The current level; -1 means no level scene is currently loaded
 	private static int level = -1;

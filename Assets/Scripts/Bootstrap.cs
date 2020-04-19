@@ -5,9 +5,26 @@ using UnityEngine.SceneManagement;
 // of other components. 
 public class Bootstrap : MonoBehaviour
 {
+	// todo: data to be abstracted to an independent info-storing file
+	int IDX_GAMELOOP = 1;
+	int[] IDX_ALLSETUP = {0, 1};
+
+	public GameObject GameLoopObj;
+
     void Awake()
     {
-    	if (!SceneManager.GetSceneByBuildIndex(0).isLoaded)
-	        SceneManager.LoadScene("StartMenu", LoadSceneMode.Additive);
+    	foreach (int i in IDX_ALLSETUP)
+    	{
+	    	if (!SceneManager.GetSceneByBuildIndex(i).isLoaded)
+		        SceneManager.LoadScene(i, LoadSceneMode.Additive);
+    	}
+
+    	if (GameLoop.Instance == null)
+    	{
+    		Debug.Log("No GameLoop detected, instantiate and move to scene");
+	    	GameObject GameLoopObj_inst = Instantiate(GameLoopObj);
+	    	SceneManager.MoveGameObjectToScene(GameLoopObj_inst, SceneManager.GetSceneByBuildIndex(IDX_GAMELOOP));
+    	}
+
     }
 }

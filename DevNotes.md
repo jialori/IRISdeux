@@ -1,3 +1,17 @@
+# 2020-04-19
+decision: GameLoop is gonna stay MonoBehaviour, because of it is handling input through Update() methods. Although I could make other modules call its update method, but that feels out of place and not a natural design for now.
+making GameLoop part of a different scene: lifecycle knowledge?
+
+encountered `Missing Reference` error when start playing after switching between levels - what happned to previously stored reference links?
+- OnDestroy() is called when unloading a scene. HOWEVER, any Debug.Log() function will not work in OnDestroy(), meaning you cannot log info when destroying things.
+- Second of all, Start() is called when loading a scene.
+- `Missing Reference`s are due to the leftover subscribers from previously loaded scenes in GameLoop that should have been detached when they unload.
+
+*new term:*
+	Unity Threading,
+
+*other:*
+	spent 1.5 hours on a typo QAQ...
 
 # 2020-04-18
 made FSM work in its Level Selection sub-system:

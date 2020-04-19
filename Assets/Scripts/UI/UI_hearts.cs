@@ -7,6 +7,14 @@ public class UI_hearts : MonoBehaviour, IObserver
 {
     [SerializeField] private List<GameObject> _hearts = new List<GameObject>();
 
+    void Awake()
+    {
+        foreach (Transform child in transform)
+        {
+            _hearts.Add(child.gameObject);
+        }
+    }
+
     void Start()
     {
     	GameManager.Instance.Player.Attach(this);
@@ -17,7 +25,7 @@ public class UI_hearts : MonoBehaviour, IObserver
 
     public void UpdateOnChange(ISubject subject) 
     {
-       switch (subject)
+        switch (subject)
         {
             case Player p when (p.health < _hearts.Count && _hearts.Count != 0):
                 Destroy(_hearts[_hearts.Count - 1]);
@@ -40,10 +48,23 @@ public class UI_hearts : MonoBehaviour, IObserver
 
     void RenderHearts(bool b)
     {
+        Debug.Log(_hearts.Count);
         foreach (var heart in _hearts)
         {
-            SpriteRenderer mr = heart.GetComponent<SpriteRenderer>();
-            mr.enabled = b;
+            if (heart != null) {
+                SpriteRenderer mr = heart.GetComponent<SpriteRenderer>();
+                mr.enabled = b;                
+            } else {
+                Debug.Log("a heart is null.");
+            }
         }
+    }
+
+    void OnDestroy()
+    {
+        GameManager.Instance.Player.Detach(this);
+        GameLoop.Instance.Detach(this);    
+
+        _hearts.Clear();    
     }
 }

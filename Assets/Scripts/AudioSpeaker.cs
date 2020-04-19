@@ -20,7 +20,6 @@ public class AudioSpeaker : MonoBehaviour, IObserver
        switch (subject)
         {
             case GameLoop gp:
-                Debug.Log("state change notified");
                 switch (GameLoop.State)
                 {
                     case InGameState state_ingame:

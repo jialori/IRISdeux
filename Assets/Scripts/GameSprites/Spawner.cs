@@ -39,13 +39,17 @@ public class Spawner : MonoBehaviour, IObserver
         }
     }
 
+    void OnDestroy()
+    {
+        GameLoop.Instance.Detach(this);        
+    }
+
 
     public void UpdateOnChange(ISubject subject) 
     {
         switch (subject)
         {
             case GameLoop gp:
-                Debug.Log("state change notified");
                 switch (GameLoop.State)
                 {
                     case InGameState state_ingame:

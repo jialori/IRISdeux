@@ -41,6 +41,11 @@ public class Player : MonoBehaviour, ISubject, IObserver
         }
     }
 
+    void OnDestroy()
+    {
+        GameLoop.Instance.Detach(this);        
+    }
+
     public delegate int PerformCalculation(int x, int y);
 
     public void DecrementHealth(int value)
@@ -73,6 +78,8 @@ public class Player : MonoBehaviour, ISubject, IObserver
 
     public void Detach(IObserver observer)
     {
+        Debug.Log("observer count:" + _observers.Count);
+        
         this._observers.Remove(observer);
     }
 
@@ -85,13 +92,11 @@ public class Player : MonoBehaviour, ISubject, IObserver
         }
     }
 
-
     public void UpdateOnChange(ISubject subject) 
     {
         switch (subject)
         {
             case GameLoop gp:
-                Debug.Log("state change notified");
                 switch (GameLoop.State)
                 {
                     case InGameState state_ingame:

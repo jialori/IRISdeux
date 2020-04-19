@@ -4,17 +4,24 @@ using Interfaces;
 
 public class UI_Score : MonoBehaviour, IObserver
 {
-	public Text scoreText;
+	private Text scoreText;
+
+    void Awake()
+    {
+        scoreText = GetComponent<Text>();
+    }
 
     void Start()
     {
     	GameManager.Instance.Player.Attach(this);
         GameLoop.Instance.Attach(this);
+
+        RenderScore(false);
     }
 
     public void UpdateOnChange(ISubject subject) 
     {
-       switch (subject)
+        switch (subject)
         {
             case Player p:
             	scoreText.text = p.score.ToString();
@@ -36,6 +43,12 @@ public class UI_Score : MonoBehaviour, IObserver
 
     void RenderScore(bool b)
     {
-        gameObject.SetActive(b);
+        scoreText.enabled = b;
+    }
+
+    void OnDestroy()
+    {
+        GameManager.Instance.Player.Detach(this);
+        GameLoop.Instance.Detach(this);      
     }
 }
