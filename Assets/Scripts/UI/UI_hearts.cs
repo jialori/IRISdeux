@@ -17,7 +17,7 @@ public class UI_hearts : MonoBehaviour, IObserver
 
     void Start()
     {
-    	GameManager.Instance.Player.Attach(this);
+    	Player.Instance.Attach(this);
         GameLoop.Instance.Attach(this);
 
         RenderHearts(false);
@@ -62,7 +62,7 @@ public class UI_hearts : MonoBehaviour, IObserver
 
     void OnDestroy()
     {
-        GameManager.Instance.Player.Detach(this);
+        Player.Instance.Detach(this);
         GameLoop.Instance.Detach(this);    
 
         _hearts.Clear();    

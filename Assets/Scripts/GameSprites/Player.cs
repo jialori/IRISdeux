@@ -17,6 +17,20 @@ public class Player : MonoBehaviour, ISubject, IObserver
     private Animator animator;
     private bool pause;
 
+    // ======== Singleton ==========
+    static Player _instance;
+    static public Player Instance { get => _instance; }
+    void Awake()
+    {
+        if (_instance != null && _instance != this) 
+        {
+            Destroy(this.gameObject);
+        }
+
+        _instance = this;
+    }
+    // ======== Singleton End =========
+
     void Start()
     {
         GameLoop.Instance.Attach(this);
@@ -33,11 +47,13 @@ public class Player : MonoBehaviour, ISubject, IObserver
         Vector2 targetPos;
         if (Input.GetKeyDown(KeyCode.UpArrow) && transform.position.y < yMax) {
         	targetPos = new Vector2(transform.position.x, transform.position.y + yIncrement);
-	    	transform.position = Vector2.MoveTowards(transform.position, targetPos, speed * Time.deltaTime);
+	    	// transform.position = Vector2.MoveTowards(transform.position, targetPos, speed * Time.deltaTime);
+            transform.position = targetPos;
         }
         else if (Input.GetKeyDown(KeyCode.DownArrow) && transform.position.y > yMin) {
         	targetPos = new Vector2(transform.position.x, transform.position.y - yIncrement);
-	    	transform.position = Vector2.MoveTowards(transform.position, targetPos, speed * Time.deltaTime);
+            // transform.position = Vector2.MoveTowards(transform.position, targetPos, speed * Time.deltaTime);
+	    	transform.position = targetPos;
         }
     }
 
@@ -79,7 +95,7 @@ public class Player : MonoBehaviour, ISubject, IObserver
     public void Detach(IObserver observer)
     {
         Debug.Log("observer count:" + _observers.Count);
-        
+
         this._observers.Remove(observer);
     }
 

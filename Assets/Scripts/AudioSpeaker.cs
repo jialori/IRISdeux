@@ -6,13 +6,23 @@ using Interfaces;
 public class AudioSpeaker : MonoBehaviour, IObserver
 {
     AudioSource _audioSource;
-    // Start is called before the first frame update
+
+    void Awake()
+    {
+        _audioSource = GetComponent<AudioSource>();
+    }
+
 	void Start()
     {
         GameLoop.Instance.Attach(this);
 
         _audioSource = GetComponent<AudioSource>();
         _audioSource.Pause();
+    }
+
+    void OnDestroy()
+    {
+        GameLoop.Instance.Detach(this);
     }
 
     public void UpdateOnChange(ISubject subject) 

@@ -13,7 +13,7 @@ public class UI_Score : MonoBehaviour, IObserver
 
     void Start()
     {
-    	GameManager.Instance.Player.Attach(this);
+    	Player.Instance.Attach(this);
         GameLoop.Instance.Attach(this);
 
         RenderScore(false);
@@ -48,7 +48,7 @@ public class UI_Score : MonoBehaviour, IObserver
 
     void OnDestroy()
     {
-        GameManager.Instance.Player.Detach(this);
+        Player.Instance.Detach(this);
         GameLoop.Instance.Detach(this);      
     }
 }

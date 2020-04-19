@@ -26,7 +26,6 @@ public class AudioData : MonoBehaviour, ISubject
         else
         {
             instance = this;
-            DontDestroyOnLoad(gameObject);
         }
     }
 

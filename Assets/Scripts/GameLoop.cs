@@ -66,6 +66,7 @@ public class GameLoop : MonoBehaviour, ISubject
 		}
 	}
 
+    // ======== Singleton ==========
 	static GameLoop _instance;
 	static public GameLoop Instance
     {
@@ -81,7 +82,6 @@ public class GameLoop : MonoBehaviour, ISubject
 		}
 
 		_instance = this;
-		DontDestroyOnLoad(_instance.gameObject);
 
 		dirty = false;
 
