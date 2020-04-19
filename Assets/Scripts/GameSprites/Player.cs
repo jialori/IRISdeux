@@ -36,7 +36,7 @@ public class Player : MonoBehaviour, ISubject, IObserver
         GameLoop.Instance.Attach(this);
 
         animator = this.GetComponent<Animator>();
-        animator.enabled = false;
+        Activate(false);
     }
 
     // Update is called once per frame
@@ -94,8 +94,6 @@ public class Player : MonoBehaviour, ISubject, IObserver
 
     public void Detach(IObserver observer)
     {
-        Debug.Log("observer count:" + _observers.Count);
-
         this._observers.Remove(observer);
     }
 
@@ -130,6 +128,8 @@ public class Player : MonoBehaviour, ISubject, IObserver
     {
         pause = !b;
         animator.enabled = b;
+        SpriteRenderer mr = GetComponent<SpriteRenderer>();
+        mr.enabled = b;                
     }
 
 }

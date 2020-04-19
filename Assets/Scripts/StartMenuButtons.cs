@@ -6,6 +6,8 @@ public class StartMenuButtons : MonoBehaviour
 	// The current level; -1 means no level scene is currently loaded
 	private static int level = -1;
 
+    public Animator animator_protagonist;
+
 	void Awake()
 	{
 		int curLevel = GetCurrentLevelBuildIdx();
@@ -15,12 +17,14 @@ public class StartMenuButtons : MonoBehaviour
 		} else {
 			StartMenuButtons.level = curLevel;			
 		}
-
 	}
 
     public void ToGame() 
     {
-    	SceneManager.UnloadSceneAsync("StartMenu");
+        // todo: change GameLoop state?
+        if (animator_protagonist.GetBool("InAnimation")) return;
+
+    	SceneManager.UnloadSceneAsync(Macro.IDX_STARTMENU);
 
     	// Change GameLoop's state
     	if (GameLoop.State != null) GameLoop.State = GameState.ingameState;
@@ -28,6 +32,8 @@ public class StartMenuButtons : MonoBehaviour
 
     public void ToNextLevel() 
     {
+        if (animator_protagonist.GetBool("InAnimation")) return;
+
     	if (StartMenuButtons.level == -1) return;
 
     	SceneManager.UnloadSceneAsync(StartMenuButtons.level);
@@ -38,6 +44,8 @@ public class StartMenuButtons : MonoBehaviour
 
     public void ToLastLevel() 
     {
+        if (animator_protagonist.GetBool("InAnimation")) return;
+
     	if (StartMenuButtons.level == -1) return;
 
     	SceneManager.UnloadSceneAsync(StartMenuButtons.level);

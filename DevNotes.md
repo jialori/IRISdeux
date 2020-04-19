@@ -11,6 +11,9 @@ move global variables / macros into a static Macro class
 - [where I learned this](https://stackoverflow.com/questions/14368129/how-to-use-global-variables-in-c)
 - well, I sometimes forget that code bundled together compile together, so it does not require any reference to refer to a static class in the same folder (more accurately, in the same namespace)
 
+add Opening animation
+- future question: is AniState needed? possibly yes - because there will be multiple animation_end signals to check, and once they all end, all UIs and buttons (say settings menu) need to be notified.
+
 *new term:*
 	Unity Threading,
 

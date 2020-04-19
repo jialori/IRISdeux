@@ -1,5 +1,6 @@
 ﻿public static class Macro {
 	
+	public 	static int IDX_STARTMENU = 0;
 	public 	static int IDX_GAMELOOP = 1;
 
 	public static int[] IDX_ALLSETUP = {0, 1};
