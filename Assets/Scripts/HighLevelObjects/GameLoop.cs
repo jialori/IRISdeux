@@ -42,6 +42,13 @@ public class GameoverMenuState : GameState
 
 public class InGameState : GameState
 {
+	// public LevelRecord;
+
+	// public override bool HandleInput() {}
+	// public override void Update() {}	
+	// public override void Enter() {
+
+	// }	
 }
 
 public class GameLoop : MonoBehaviour, ISubject
@@ -72,7 +79,6 @@ public class GameLoop : MonoBehaviour, ISubject
     {
         get => _instance;
     }
-
 
 	void Awake()
 	{

@@ -59,7 +59,7 @@ public class Player : MonoBehaviour, ISubject, IObserver
 
     void OnDestroy()
     {
-        GameLoop.Instance.Detach(this);        
+        GameLoop.Instance.Detach(this);
     }
 
     public delegate int PerformCalculation(int x, int y);

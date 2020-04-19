@@ -3,10 +3,6 @@ using UnityEngine.SceneManagement;
 
 public class StartMenuButtons : MonoBehaviour
 {
-	// Assume that the last series of build scenes are Level scenes,
-	// and the first Level scene starts at this index.
-	private int firstLevelBuildIndex = 2; // ToBeSet
-
 	// The current level; -1 means no level scene is currently loaded
 	private static int level = -1;
 
@@ -14,8 +10,8 @@ public class StartMenuButtons : MonoBehaviour
 	{
 		int curLevel = GetCurrentLevelBuildIdx();
 		if (curLevel == -1) {
-			SceneManager.LoadSceneAsync(firstLevelBuildIndex, LoadSceneMode.Additive);
-			StartMenuButtons.level = firstLevelBuildIndex;			
+			SceneManager.LoadSceneAsync(Macro.IDX_FIRSTLEVEL, LoadSceneMode.Additive);
+			StartMenuButtons.level = Macro.IDX_FIRSTLEVEL;			
 		} else {
 			StartMenuButtons.level = curLevel;			
 		}
@@ -58,7 +54,7 @@ public class StartMenuButtons : MonoBehaviour
             for (int n = 0; n < SceneManager.sceneCount; ++n)
             {
                 Scene scene = SceneManager.GetSceneAt(n);
-                if (scene.buildIndex >= firstLevelBuildIndex) {
+                if (scene.buildIndex >= Macro.IDX_FIRSTLEVEL) {
                 	curLevel = scene.buildIndex;
                 }
             }
@@ -73,7 +69,7 @@ public class StartMenuButtons : MonoBehaviour
     		return -1;
     	
     	int n = SceneManager.sceneCountInBuildSettings;
-    	return (StartMenuButtons.level + 1 < n) ? StartMenuButtons.level + 1 : firstLevelBuildIndex;
+    	return (StartMenuButtons.level + 1 < n) ? StartMenuButtons.level + 1 : Macro.IDX_FIRSTLEVEL;
     }
 
     private int GetLastLevelBuildIdx()
@@ -82,7 +78,7 @@ public class StartMenuButtons : MonoBehaviour
     		return -1;
     	
     	int n = SceneManager.sceneCountInBuildSettings;
-    	return (StartMenuButtons.level - 1 >= firstLevelBuildIndex) ? StartMenuButtons.level - 1 : n - 1;
+    	return (StartMenuButtons.level - 1 >= Macro.IDX_FIRSTLEVEL) ? StartMenuButtons.level - 1 : n - 1;
     }
 
 

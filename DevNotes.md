@@ -2,10 +2,14 @@
 decision: GameLoop is gonna stay MonoBehaviour, because of it is handling input through Update() methods. Although I could make other modules call its update method, but that feels out of place and not a natural design for now.
 making GameLoop part of a different scene: lifecycle knowledge?
 
-encountered `Missing Reference` error when start playing after switching between levels - what happned to previously stored reference links?
+encountered `Missing Reference` error when start playing after switching between levels - need to keep Observer pattern's subscription list clean, subscribers detach onself upon destruction
 - OnDestroy() is called when unloading a scene. HOWEVER, any Debug.Log() function will not work in OnDestroy(), meaning you cannot log info when destroying things.
 - Second of all, Start() is called when loading a scene.
 - `Missing Reference`s are due to the leftover subscribers from previously loaded scenes in GameLoop that should have been detached when they unload.
+
+move global variables / macros into a static Macro class
+- [where I learned this](https://stackoverflow.com/questions/14368129/how-to-use-global-variables-in-c)
+- well, I sometimes forget that code bundled together compile together, so it does not require any reference to refer to a static class in the same folder (more accurately, in the same namespace)
 
 *new term:*
 	Unity Threading,
