@@ -3,6 +3,10 @@ camera in an additively-loaded scene cannot observe canvas from the other scene.
 - turns out the issue is not with things are seperated in different scenes, it's actually because the canvas is set to be rendered by their scenes' main cameras only, so definitely no other cameras can observe them.
 Canvas: camera (observable only seen by the assigned camera, can scale according to screen), world (observable by all cameras, scale?todo) 
 
+a `const` is always (inherently) a `static`.
+
+`order in layer`:
+
 # 2020-04-19
 decision: GameLoop is gonna stay MonoBehaviour, because of it is handling input through Update() methods. Although I could make other modules call its update method, but that feels out of place and not a natural design for now.
 making GameLoop part of a different scene: lifecycle knowledge?
