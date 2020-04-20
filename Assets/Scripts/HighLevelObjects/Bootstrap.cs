@@ -9,18 +9,31 @@ public class Bootstrap : MonoBehaviour
 
     void Awake()
     {
-    	foreach (int i in Macro.IDX_ALLSETUP)
-    	{
-	    	if (!SceneManager.GetSceneByBuildIndex(i).isLoaded)
-		        SceneManager.LoadScene(i, LoadSceneMode.Additive);
-    	}
 
-    	if (GameLoop.Instance == null)
-    	{
-    		Debug.Log("No GameLoop detected, instantiate and move to scene");
-	    	GameObject GameLoopObj_inst = Instantiate(GameLoopObj);
-	    	SceneManager.MoveGameObjectToScene(GameLoopObj_inst, SceneManager.GetSceneByBuildIndex(Macro.IDX_GAMELOOP));
-    	}
+        switch (gameObject.scene.buildIndex)
+        {
+            case (Macro.IDX_STARTMENU):
+                break;
+            case (Macro.IDX_GAMELOOP):
+                break;
+            default: // a game level scene
+                foreach (int i in Macro.IDX_ALL_SETUP)
+                {
+                    if (!SceneManager.GetSceneByBuildIndex(i).isLoaded)
+                        Debug.Log("Scene" + i.ToString() + " is missing, additively load");
+                        SceneManager.LoadScene(i, LoadSceneMode.Additive);
+                }
+
+                if (GameLoop.Instance == null)
+                {
+                    Debug.Log("No GameLoop detected, instantiate and move to scene");
+                    GameObject GameLoopObj_inst = Instantiate(GameLoopObj);
+                    SceneManager.MoveGameObjectToScene(GameLoopObj_inst, SceneManager.GetSceneByBuildIndex(Macro.IDX_GAMELOOP));
+                }
+
+                break;
+
+        }
 
     }
 }
