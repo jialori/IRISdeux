@@ -1,3 +1,17 @@
+# 2020-04-20
+camera in an additively-loaded scene cannot observe canvas from the other scene.
+- turns out the issue is not with things are seperated in different scenes, it's actually because the canvas is set to be rendered by their scenes' main cameras only, so definitely no other cameras can observe them.
+Canvas: camera (observable only seen by the assigned camera, can scale according to screen), world (observable by all cameras, scale?todo) 
+
+`isLoaded`, counter-intuitively, does not return `true` if you loaded the scene in the same frame; so if you load a frame in Awake(), isLoad for that scene will return *false* in Start(). A way out would be to 
+<!-- I spent long time debugging the extra scene problem, because I did not realize that a scene does not magically show up. If I trace code that has 'LoadScene' in it, I'm bound to be looking at the lines that wrongly generates the frame, and the bug is bound to be in there. -->
+
+a `const` is always (inherently) a `static` (hence no `const static` syntax).
+
+`order in layer`: the lower the number, the earlier drawn, so the lower in the canvas. 
+
+The Life Cycles (Update, Awake, Start) of objects in all loaded scenes (including additively loaded scenes) will keep running like normal. 
+
 # 2020-04-19
 decision: GameLoop is gonna stay MonoBehaviour, because of it is handling input through Update() methods. Although I could make other modules call its update method, but that feels out of place and not a natural design for now.
 making GameLoop part of a different scene: lifecycle knowledge?

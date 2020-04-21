@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class startMenu_protagonist_fall : StateMachineBehaviour
+public class startMenu_particle_enter : StateMachineBehaviour
 {
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     //override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -19,7 +19,6 @@ public class startMenu_protagonist_fall : StateMachineBehaviour
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        // animator.SetBool("InAnimation", false);
         startMenu_AniController.NotifyAnimationCompletion(animator);
     }
 

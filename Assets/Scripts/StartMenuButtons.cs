@@ -1,28 +1,44 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
+using Interfaces;
 
-public class StartMenuButtons : MonoBehaviour
+public class StartMenuButtons : MonoBehaviour, IObserver
 {
 	// The current level; -1 means no level scene is currently loaded
 	private static int level = -1;
 
-    public Animator animator_protagonist;
+    private bool inactive;
 
 	void Awake()
 	{
-		int curLevel = GetCurrentLevelBuildIdx();
-		if (curLevel == -1) {
-			SceneManager.LoadSceneAsync(Macro.IDX_FIRSTLEVEL, LoadSceneMode.Additive);
-			StartMenuButtons.level = Macro.IDX_FIRSTLEVEL;			
-		} else {
-			StartMenuButtons.level = curLevel;			
-		}
+        inactive = true;
 	}
+
+    void Start()
+    {
+        if (GameLoop.Instance == null)
+        {
+            Debug.Log("no gameloop yet");
+        } else {
+            GameLoop.Instance.Attach(this);            
+        }
+        StartMenuButtons.level = GetCurrentLevelBuildIdx();
+    }
+
+    void Update()
+    {
+        // Debug.Log("helloooo from startmenu");
+    }
+
+    void OnDestroy()
+    {
+        GameLoop.Instance.Detach(this);
+    }
+
 
     public void ToGame() 
     {
-        // todo: change GameLoop state?
-        if (animator_protagonist.GetBool("InAnimation")) return;
+        if (inactive) return;
 
     	SceneManager.UnloadSceneAsync(Macro.IDX_STARTMENU);
 
@@ -32,8 +48,9 @@ public class StartMenuButtons : MonoBehaviour
 
     public void ToNextLevel() 
     {
-        if (animator_protagonist.GetBool("InAnimation")) return;
+        if (inactive) return;
 
+        StartMenuButtons.level = GetCurrentLevelBuildIdx();
     	if (StartMenuButtons.level == -1) return;
 
     	SceneManager.UnloadSceneAsync(StartMenuButtons.level);
@@ -44,8 +61,9 @@ public class StartMenuButtons : MonoBehaviour
 
     public void ToLastLevel() 
     {
-        if (animator_protagonist.GetBool("InAnimation")) return;
+        if (inactive) return;
 
+        StartMenuButtons.level = GetCurrentLevelBuildIdx();
     	if (StartMenuButtons.level == -1) return;
 
     	SceneManager.UnloadSceneAsync(StartMenuButtons.level);
@@ -88,6 +106,26 @@ public class StartMenuButtons : MonoBehaviour
     	int n = SceneManager.sceneCountInBuildSettings;
     	return (StartMenuButtons.level - 1 >= Macro.IDX_FIRSTLEVEL) ? StartMenuButtons.level - 1 : n - 1;
     }
+
+    // ========== Subscription ==========
+    public void UpdateOnChange(ISubject subject) 
+    {
+        switch (subject)
+        {
+            case GameLoop gp:
+                switch (GameLoop.State)
+                {
+                    case SongMenuState state_songmenu:
+                        inactive = false;
+                        break;
+                    default:
+                        inactive = true;
+                        break;
+                }
+                break;
+        }
+    }
+    // ========== Subscription END ==========
 
 
 }
