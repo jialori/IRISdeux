@@ -14,7 +14,7 @@ public class GameState
 	// Returns True in case of state switch 
 	public virtual bool HandleInput(GameLoop game) {return false;}
 
-	public virtual void Update(GameLoop game) {}
+	public virtual void RegUpdate(GameLoop game) {}
 
 	public virtual void Enter(GameLoop game) {}
 }
@@ -22,7 +22,7 @@ public class GameState
 public class AnimationState : GameState
 {
 	// public override bool HandleInput() {}
-	// public override void Update() {}
+	// public override void RegUpdate() {}
 
 }
 
@@ -45,7 +45,7 @@ public class InGameState : GameState
 	// public LevelRecord;
 
 	// public override bool HandleInput() {}
-	// public override void Update() {}	
+	// public override void RegUpdate() {}	
 	// public override void Enter() {
 
 	// }	
@@ -53,7 +53,7 @@ public class InGameState : GameState
 
 public class GameLoop : MonoBehaviour, ISubject
 {
-	public static bool dirty;
+	private static bool isDirty;
 
 	// There are two ways to set the _state
 	// 1. Within GameState's HandleInput()
@@ -68,7 +68,7 @@ public class GameLoop : MonoBehaviour, ISubject
 			if (value != _state)
 			{
 				_state = value;
-				dirty = true;
+				isDirty = true;
 			}
 		}
 	}
@@ -89,9 +89,9 @@ public class GameLoop : MonoBehaviour, ISubject
 
 		_instance = this;
 
-		dirty = false;
+		isDirty = false;
 
-		State = GameState.aniState; // will set dirty to true
+		State = GameState.aniState; // will set isDirty to true
     	State.HandleInput(this);
 
 	}
@@ -100,13 +100,13 @@ public class GameLoop : MonoBehaviour, ISubject
     {
     	// Game State control
     	_state.HandleInput(this);
-    	if (dirty) 
+    	if (isDirty) 
     	{
     		_state.Enter(this);
     		Notify();
-    		dirty = false;
+    		isDirty = false;
     	}
-    	_state.Update(this);
+    	_state.RegUpdate(this);
 
     	// Other...
 
@@ -118,14 +118,13 @@ public class GameLoop : MonoBehaviour, ISubject
     // Attach an observer to the subject.
     public void Attach(IObserver observer)
     {
+    	// Debug.Log("something attached to gameloop!");
         this._observers.Add(observer);
     }
 
     // Detach an observer from the subject.
     public void Detach(IObserver observer)
     {
-        // Debug.Log("something detached");
-
         this._observers.Remove(observer);
     }
 
