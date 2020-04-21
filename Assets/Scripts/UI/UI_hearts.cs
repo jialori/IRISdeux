@@ -48,7 +48,6 @@ public class UI_hearts : MonoBehaviour, IObserver
 
     void RenderHearts(bool b)
     {
-        Debug.Log(_hearts.Count);
         foreach (var heart in _hearts)
         {
             if (heart != null) {

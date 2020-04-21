@@ -3,7 +3,8 @@ camera in an additively-loaded scene cannot observe canvas from the other scene.
 - turns out the issue is not with things are seperated in different scenes, it's actually because the canvas is set to be rendered by their scenes' main cameras only, so definitely no other cameras can observe them.
 Canvas: camera (observable only seen by the assigned camera, can scale according to screen), world (observable by all cameras, scale?todo) 
 
-`isLoaded`, counter-intuitively, does not return `true` if you loaded the scene in the same frame; so if you load a frame in Awake(), isLoad for that scene will return *false* in Start(). A way out would be to 
+`isLoaded`, counter-intuitively, does not return `true` in the same frame when you load the scene, it is possibly set to `true` in the next fram; so if you load a frame in Awake(), isLoad for that scene will return *false* in Start(). 
+- A way out can be to have a script storing the currently loaded scenes and let other scripts update it whenever they load a scene.
 <!-- I spent long time debugging the extra scene problem, because I did not realize that a scene does not magically show up. If I trace code that has 'LoadScene' in it, I'm bound to be looking at the lines that wrongly generates the frame, and the bug is bound to be in there. -->
 
 a `const` is always (inherently) a `static` (hence no `const static` syntax).
@@ -11,6 +12,16 @@ a `const` is always (inherently) a `static` (hence no `const static` syntax).
 `order in layer`: the lower the number, the earlier drawn, so the lower in the canvas. 
 
 The Life Cycles (Update, Awake, Start) of objects in all loaded scenes (including additively loaded scenes) will keep running like normal. 
+
+*new term:* 
+	`delegate` and `event` seems to make a Subscription pattern together. They are used in Unity to subscribe custom delegate functions to events like `SceneLoaded`, which sends notifications upon occurance.
+
+lesson: debug starting at typos, syntax (brackets), then logic, then into the hidden levels. 
+If some behaviors seem to pop out of nowhere, they probably come out from some code containing relevant keywords.
+
+question:
+	which camera is used when multiple scenes are loaded?
+	static non-monobehaviour classes are useful in Unity games, but does non-static non-monobahaviour classes ever help? do they even instantiate objects? \[YES, can be instantiated and stored/referenced by monobehaviour scripts!\]
 
 # 2020-04-19
 decision: GameLoop is gonna stay MonoBehaviour, because of it is handling input through Update() methods. Although I could make other modules call its update method, but that feels out of place and not a natural design for now.
@@ -29,7 +40,7 @@ add Opening animation
 - future question: is AniState needed? possibly yes - because there will be multiple animation_end signals to check, and once they all end, all UIs and buttons (say settings menu) need to be notified.
 
 *new term:*
-	Unity Threading,
+	Unity Threading, c# pointer
 
 *other:*
 	spent 1.5 hours on a typo QAQ...

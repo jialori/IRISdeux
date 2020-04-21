@@ -9,8 +9,12 @@ public class Bootstrap : MonoBehaviour
 
     void Awake()
     {
-        // do nothing if this is not the only scene open
-        if (SceneManager.sceneCount > 1) return;
+        // do nothing if not bootstrapping
+        if (SceneManager.sceneCount > 1) return; 
+
+
+        // add to SceneManagerExt upon prpgram started
+        SceneManagerExt.NotifySceneIsLoaded(gameObject.scene.buildIndex);
 
         LoadAllSetUpScenes();
         AddGameLoop();
@@ -18,7 +22,7 @@ public class Bootstrap : MonoBehaviour
         switch (gameObject.scene.buildIndex)
         {
             case (Macro.IDX_STARTMENU):
-                SceneManager.LoadScene(Macro.IDX_FIRSTLEVEL, LoadSceneMode.Additive);
+                SceneManagerExt.LoadScene(Macro.IDX_FIRSTLEVEL, LoadSceneMode.Additive);
                 break;
 
             default:
@@ -31,12 +35,10 @@ public class Bootstrap : MonoBehaviour
     {
         foreach (int i in Macro.IDX_ALL_SETUP)
         {
-            // todo: isLoaded is not reliable because it's not updated immediately
-            if ((!SceneManager.GetSceneByBuildIndex(i).isLoaded)
-                && (SceneManager.GetSceneByBuildIndex(i).name != gameObject.scene.name))
+            if (!SceneManagerExt.IsLoaded(i))
             {
                 Debug.Log("Scene" + i.ToString() + " is missing, additively load");
-                SceneManager.LoadScene(i, LoadSceneMode.Additive);
+                SceneManagerExt.LoadScene(i, LoadSceneMode.Additive);
             }
         }
     } 
@@ -46,17 +48,12 @@ public class Bootstrap : MonoBehaviour
         if (GameLoop.Instance == null)
         {
             Debug.Log("No GameLoop detected, instantiate and move to scene");
-
-            // todo: isLoaded is not reliable because it's not updated immediately
-
-            // isLoaded changes in the next frame, so referencing it in the same frame does not work
-            // Workaround: manage a static List of loaded scenes (a new script) on the GameLoop object.
-
-            // if (!SceneManager.GetSceneByBuildIndex(Macro.IDX_GAMELOOP).isLoaded)
-            // {
-            //     Debug.Log("GameLoop Scene is missing, additively load");
-            //     SceneManager.LoadScene(Macro.IDX_GAMELOOP, LoadSceneMode.Additive);
-            // }
+            
+            if (!SceneManagerExt.IsLoaded(Macro.IDX_GAMELOOP))
+            {
+                Debug.Log("GameLoop Scene is missing, additively load");
+                SceneManagerExt.LoadScene(Macro.IDX_GAMELOOP, LoadSceneMode.Additive);
+            }
 
             GameObject GameLoopObj_inst = Instantiate(GameLoopObj);
             SceneManager.MoveGameObjectToScene(GameLoopObj_inst, SceneManager.GetSceneByBuildIndex(Macro.IDX_GAMELOOP));

@@ -10,13 +10,13 @@ public class startMenu_AniController : MonoBehaviour
 
     void Awake()
     {
-        startMenu_AniController.countTotal = openAnimations.Count;
+        countTotal = openAnimations.Count;
     }
 
     public static void NotifyAnimationCompletion(Animator am)
     {
     	countCompleted += 1;
-    	if (startMenu_AniController.countCompleted == startMenu_AniController.countTotal) {
+    	if (countCompleted == countTotal) {
     		GameLoop.State = GameState.songmenuState;
     	}
     }

@@ -62,12 +62,15 @@ public class Player : MonoBehaviour, ISubject, IObserver
         GameLoop.Instance.Detach(this);
     }
 
-    public delegate int PerformCalculation(int x, int y);
 
     public void DecrementHealth(int value)
     {
     	health -= 1;
     	Notify();
+
+        if (health <= 0) {
+            GameLoop.State = GameState.gameovermenuState;
+        }
     }
 
 
