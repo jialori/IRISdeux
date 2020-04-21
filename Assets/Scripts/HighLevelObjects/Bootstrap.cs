@@ -31,6 +31,7 @@ public class Bootstrap : MonoBehaviour
     {
         foreach (int i in Macro.IDX_ALL_SETUP)
         {
+            // todo: isLoaded is not reliable because it's not updated immediately
             if ((!SceneManager.GetSceneByBuildIndex(i).isLoaded)
                 && (SceneManager.GetSceneByBuildIndex(i).name != gameObject.scene.name))
             {
@@ -45,6 +46,8 @@ public class Bootstrap : MonoBehaviour
         if (GameLoop.Instance == null)
         {
             Debug.Log("No GameLoop detected, instantiate and move to scene");
+
+            // todo: isLoaded is not reliable because it's not updated immediately
 
             // isLoaded changes in the next frame, so referencing it in the same frame does not work
             // Workaround: manage a static List of loaded scenes (a new script) on the GameLoop object.
