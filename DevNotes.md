@@ -7,6 +7,8 @@ a `const` is always (inherently) a `static`.
 
 `order in layer`:
 
+The Life Cycles (Update, Awake, Start) of objects in additively loaded scenes will keep running like normal. 
+
 # 2020-04-19
 decision: GameLoop is gonna stay MonoBehaviour, because of it is handling input through Update() methods. Although I could make other modules call its update method, but that feels out of place and not a natural design for now.
 making GameLoop part of a different scene: lifecycle knowledge?

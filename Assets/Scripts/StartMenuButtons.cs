@@ -12,22 +12,16 @@ public class StartMenuButtons : MonoBehaviour, IObserver
 	void Awake()
 	{
         inactive = true;
-
-        // todo: move into switch in bootstrap
-        // Bootstrap logic moved into Boostrap.cs
-        int curLevel = GetCurrentLevelBuildIdx();
-        if (curLevel == -1) {
-         SceneManager.LoadSceneAsync(Macro.IDX_FIRSTLEVEL, LoadSceneMode.Additive);
-         StartMenuButtons.level = Macro.IDX_FIRSTLEVEL;          
-        } else {
-         StartMenuButtons.level = curLevel;          
-        }
-
 	}
 
     void Start()
     {
-        GameLoop.Instance.Attach(this);
+        if (GameLoop.Instance == null)
+        {
+            Debug.Log("no gameloop yet");
+        } else {
+            GameLoop.Instance.Attach(this);            
+        }
         StartMenuButtons.level = GetCurrentLevelBuildIdx();
     }
 
@@ -44,7 +38,6 @@ public class StartMenuButtons : MonoBehaviour, IObserver
 
     public void ToGame() 
     {
-        // todo: change GameLoop state?
         if (inactive) return;
 
     	SceneManager.UnloadSceneAsync(Macro.IDX_STARTMENU);
@@ -57,6 +50,7 @@ public class StartMenuButtons : MonoBehaviour, IObserver
     {
         if (inactive) return;
 
+        StartMenuButtons.level = GetCurrentLevelBuildIdx();
     	if (StartMenuButtons.level == -1) return;
 
     	SceneManager.UnloadSceneAsync(StartMenuButtons.level);
@@ -69,6 +63,7 @@ public class StartMenuButtons : MonoBehaviour, IObserver
     {
         if (inactive) return;
 
+        StartMenuButtons.level = GetCurrentLevelBuildIdx();
     	if (StartMenuButtons.level == -1) return;
 
     	SceneManager.UnloadSceneAsync(StartMenuButtons.level);
