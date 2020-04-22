@@ -16,13 +16,21 @@ public class Bootstrap : MonoBehaviour
         // add to SceneManagerExt upon prpgram started
         SceneManagerExt.NotifySceneIsLoaded(gameObject.scene.buildIndex);
 
-        LoadAllSetUpScenes();
+        int buildIndex = gameObject.scene.buildIndex;
+        if (Macro.IsMenu(buildIndex)) {
+
+        } 
+        else if (Macro.IsLevel(buildIndex))
+        {
+            LoadFreshStartScenes();
+        }
+
         AddGameLoop();
 
         switch (gameObject.scene.buildIndex)
         {
             case (Macro.IDX_STARTMENU):
-                SceneManagerExt.LoadScene(Macro.IDX_FIRSTLEVEL, LoadSceneMode.Additive);
+                SceneManagerExt.LoadScene_u(Macro.IDX_FIRSTLEVEL, LoadSceneMode.Additive);
                 break;
 
             default:
@@ -31,14 +39,14 @@ public class Bootstrap : MonoBehaviour
 
     }
 
-    void LoadAllSetUpScenes()
+    void LoadFreshStartScenes()
     {
-        foreach (int i in Macro.IDX_ALL_SETUP)
+        foreach (int i in Macro.IDX_All_FRESHSTART)
         {
             if (!SceneManagerExt.IsLoaded(i))
             {
                 Debug.Log("Scene" + i.ToString() + " is missing, additively load");
-                SceneManagerExt.LoadScene(i, LoadSceneMode.Additive);
+                SceneManagerExt.LoadScene_u(i, LoadSceneMode.Additive);
             }
         }
     } 
@@ -52,7 +60,7 @@ public class Bootstrap : MonoBehaviour
             if (!SceneManagerExt.IsLoaded(Macro.IDX_GAMELOOP))
             {
                 Debug.Log("GameLoop Scene is missing, additively load");
-                SceneManagerExt.LoadScene(Macro.IDX_GAMELOOP, LoadSceneMode.Additive);
+                SceneManagerExt.LoadScene_u(Macro.IDX_GAMELOOP, LoadSceneMode.Additive);
             }
 
             GameObject GameLoopObj_inst = Instantiate(GameLoopObj);

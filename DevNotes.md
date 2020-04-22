@@ -1,3 +1,15 @@
+# 2020-04-22
+add GameOver scene (buttons not working!!!)
+
+
+# 2020-04-21
+add SceneManagerExt, an extension to SceneManager that fixes the isLoaded delayed update.
+
+*other:*
+- finished SceneManagerExt pretty quick :DDDD
+- **exp** stay focused on writing down the code first, and then debug them at once - this worked well!
+- so you should never name two things the same name unless it's for overwridding. spent 1hr on an uncared Find-Replace mistake QAQ 
+
 # 2020-04-20
 camera in an additively-loaded scene cannot observe canvas from the other scene.
 - turns out the issue is not with things are seperated in different scenes, it's actually because the canvas is set to be rendered by their scenes' main cameras only, so definitely no other cameras can observe them.

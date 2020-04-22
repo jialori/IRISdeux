@@ -52,7 +52,7 @@ public class StartMenuButtons : MonoBehaviour, IObserver
 
         int nxtLevel = SceneManagerExt.GetNextLevelBuildIdx();
     	SceneManagerExt.UnloadSceneAsync(SceneManagerExt.CurLevel);
-    	SceneManagerExt.LoadSceneAsync(nxtLevel, LoadSceneMode.Additive);
+    	SceneManagerExt.LoadSceneAsync_u(nxtLevel, LoadSceneMode.Additive);
     }
  
 
@@ -64,7 +64,7 @@ public class StartMenuButtons : MonoBehaviour, IObserver
 
         int lastLevel = SceneManagerExt.GetLastLevelBuildIdx();
     	SceneManagerExt.UnloadSceneAsync(SceneManagerExt.CurLevel);
-    	SceneManagerExt.LoadSceneAsync(lastLevel, LoadSceneMode.Additive);
+    	SceneManagerExt.LoadSceneAsync_u(lastLevel, LoadSceneMode.Additive);
     }
 
 

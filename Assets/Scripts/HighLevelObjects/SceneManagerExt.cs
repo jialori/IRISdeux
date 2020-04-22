@@ -41,31 +41,47 @@ public class SceneManagerExt
 	}
 
 
-	public static void LoadScene(int buildIndex, LoadSceneMode mode = LoadSceneMode.Single)
+	// unique load (ensures only one copy of a scene is loaded at a time)
+	public static void LoadScene_u(int buildIndex, LoadSceneMode mode = LoadSceneMode.Single)
 	{
-		// scenesToLoaded[buildIndex] = true;
-		scenesToLoaded.Remove(buildIndex);
-		scenesToLoaded.Add(buildIndex,true);
-    	// Debug.Log("loaded scene" + buildIndex.ToString() + " " + scenesToLoaded[buildIndex]);
-		SceneManager.LoadScene(buildIndex, mode);
-	}
-
-	public static void LoadSceneAsync(int buildIndex, LoadSceneMode mode = LoadSceneMode.Single)
-	{
-		// scenesToLoaded[buildIndex] = true;		
-		scenesToLoaded.Remove(buildIndex);
-		scenesToLoaded.Add(buildIndex,true);
-    	// Debug.Log("loaded scene" + buildIndex.ToString() + " " + scenesToLoaded[buildIndex]);
-		SceneManager.LoadSceneAsync(buildIndex, mode);
+		if (!SceneManagerExt.IsLoaded(buildIndex)) {
+			// scenesToLoaded[buildIndex] = true;
+			scenesToLoaded.Remove(buildIndex);
+			scenesToLoaded.Add(buildIndex,true);
+			SceneManager.LoadScene(buildIndex, mode);
+		} else {
+	    	// Debug.Log("Tring to load scene " + buildIndex.ToString() + "  multiple times");
+		}
 	}
 
 
+	// unique load (ensures only one copy of a scene is loaded at a time)
+	public static void LoadSceneAsync_u(int buildIndex, LoadSceneMode mode = LoadSceneMode.Single)
+	{
+		if (!SceneManagerExt.IsLoaded(buildIndex)) {
+			// scenesToLoaded[buildIndex] = true;		
+			scenesToLoaded.Remove(buildIndex);
+			scenesToLoaded.Add(buildIndex,true);
+			SceneManager.LoadSceneAsync(buildIndex, mode);
+		} else {
+	    	// Debug.Log("Tring to load scene " + buildIndex.ToString() + "  multiple times");
+		}
+
+	}
+
+
+	// does NOT return intterrupt if attempting to unload a scene that is not loaded
 	public static void UnloadSceneAsync(int buildIndex)
 	{
-		// scenesToLoaded[buildIndex] = false;		
-		scenesToLoaded.Remove(buildIndex);
-		scenesToLoaded.Add(buildIndex,false);
-		SceneManager.UnloadSceneAsync(buildIndex);
+		Debug.Log(buildIndex.ToString());
+    	if (scenesToLoaded[buildIndex]) {
+			// scenesToLoaded[buildIndex] = false;	
+			scenesToLoaded.Remove(buildIndex);
+			scenesToLoaded.Add(buildIndex,false);
+	    	SceneManager.UnloadSceneAsync(buildIndex);    		
+    	} else {
+    		Debug.Log("Trying to unload a not loaded scene: " + buildIndex.ToString());
+    	}	
 	}
 
 	// ============ Functions correponsing to SceneManager functions END ============
@@ -76,7 +92,7 @@ public class SceneManagerExt
 		// scenesToLoaded[buildIndex] = true;
 		scenesToLoaded.Remove(buildIndex);
 		scenesToLoaded.Add(buildIndex,true);
-    	// Debug.Log("notify scene load" + buildIndex.ToString() + " " + scenesToLoaded[buildIndex]);
+    	Debug.Log("notify scene load" + buildIndex.ToString() + " " + scenesToLoaded[buildIndex]);
 
 
 	}
@@ -118,4 +134,11 @@ public class SceneManagerExt
 	    	return (curLevel - 1 >= Macro.IDX_FIRSTLEVEL) ? curLevel - 1 : n - 1;
 		}    	
     }	
+
+
+    public static void ReloadScene(int buildIndex, LoadSceneMode mode = LoadSceneMode.Single)
+    {
+		SceneManagerExt.UnloadSceneAsync(buildIndex);    		
+    	SceneManagerExt.LoadScene_u(buildIndex, mode);
+    }
 }
