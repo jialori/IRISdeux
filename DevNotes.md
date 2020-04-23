@@ -2,6 +2,9 @@
 add menus: settings and gameover (w/o FSM change yet)
 add menus: settings (w FSM change yet)
 refactor UpdateOnChange() structures so subscribers adjust to gameloop state upon start
+*sequeces of executions really can have multiple orders with different scene changes, thus code should ideally be order-invariant.*
+
+
 
 # 2020-04-21
 add SceneManagerExt, an extension to SceneManager that fixes the isLoaded delayed update.

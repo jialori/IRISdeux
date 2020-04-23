@@ -12,7 +12,7 @@
 	public static int[] IDX_All_FRESHSTART = {IDX_GAMELOOP, 
 											  IDX_STARTMENU}; // starting the app
 
-	private static int[] range_menus = {1, 2, 3};
+	private static int[] range_menus = {1, 3};
 	private static int[] range_levels = {4, 5};
 
 

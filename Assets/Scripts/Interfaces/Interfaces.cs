@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// Multiple inheritance is impossible
+// However, a class can inherit from a superclass, plus extend many interfaces
 namespace Interfaces{
 
 	public interface ISubject
@@ -16,8 +18,6 @@ namespace Interfaces{
 	    void Notify();
 	}
 
-	// todo: Multiple inheritance is impossible
-	// However! A class can inherit from a superclass, plus extend many interfaces!
 	public interface IObserver
 	{
 	    // Receive update from subject

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Interfaces;
 
 public class GameState
@@ -23,32 +24,30 @@ public class AnimationState : GameState
 {
 	// public override bool HandleInput() {}
 	// public override void RegUpdate() {}
-
 }
 
 public class SongMenuState : GameState
-{
-
-}
-
+{}
 
 public class SettingsMenuState : GameState
-{
-}
+{}
 
 public class GameoverMenuState : GameState
 {
+	public void Enter() 
+	{
+		// SceneManagerExt.UnloadSceneAsync();
+		SceneManagerExt.LoadScene_u(Macro.IDX_GAMEOVERMENU, LoadSceneMode.Additive);
+	}	
+
 }
 
 public class InGameState : GameState
 {
 	// public LevelRecord;
-
 	// public override bool HandleInput() {}
 	// public override void RegUpdate() {}	
-	// public override void Enter() {
-
-	// }	
+	// public override void Enter() {}	
 }
 
 public class GameLoop : MonoBehaviour, ISubject
@@ -62,7 +61,7 @@ public class GameLoop : MonoBehaviour, ISubject
 	public static GameState State 
 	{
 		get => _state;
-		// For triggered UI buttons to set game states
+
 		set 
 		{
 			if (value != _state)
@@ -72,6 +71,7 @@ public class GameLoop : MonoBehaviour, ISubject
 			}
 		}
 	}
+
 
     // ======== Singleton ==========
 	static GameLoop _instance;
@@ -95,6 +95,8 @@ public class GameLoop : MonoBehaviour, ISubject
     	State.HandleInput(this);
 
 	}
+    // ======== Singleton END ==========
+
 
     void Update()
     {
@@ -115,7 +117,7 @@ public class GameLoop : MonoBehaviour, ISubject
 
 	// ============ Subcriber Pattern ============
     private List<IObserver> _observers = new List<IObserver>();
-    // Attach an observer to the subject.
+
     public void Attach(IObserver observer)
     {
     	// Debug.Log("something attached to gameloop!");
@@ -137,4 +139,5 @@ public class GameLoop : MonoBehaviour, ISubject
             observer.UpdateOnChange(this);
         }
     }
+	// ============ Subcriber Pattern END ============
 }

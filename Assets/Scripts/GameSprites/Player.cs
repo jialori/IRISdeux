@@ -33,13 +33,14 @@ public class Player : MonoBehaviour, ISubject, IObserver
     }
     // ======== Singleton End =========
 
+
     void Start()
     {
         GameLoop.Instance.Attach(this);
         SyncWithGameloop();
     }
 
-    // Update is called once per frame
+
     void Update()
     {
         if (pause) return;
@@ -56,6 +57,7 @@ public class Player : MonoBehaviour, ISubject, IObserver
 	    	transform.position = targetPos;
         }
     }
+
 
     void OnDestroy()
     {
@@ -89,18 +91,19 @@ public class Player : MonoBehaviour, ISubject, IObserver
     // stored more comprehensively (categorized by event type, etc.).
     private List<IObserver> _observers = new List<IObserver>();
 
-    // The subscription management methods.
+
     public void Attach(IObserver observer)
     {
         this._observers.Add(observer);
     }
+
 
     public void Detach(IObserver observer)
     {
         this._observers.Remove(observer);
     }
 
-    // Trigger an update in each subscriber.
+
     public void Notify()
     {
         foreach (var observer in _observers)
@@ -108,6 +111,7 @@ public class Player : MonoBehaviour, ISubject, IObserver
             observer.UpdateOnChange(this);
         }
     }
+
 
     public void UpdateOnChange(ISubject subject) 
     {
@@ -118,6 +122,9 @@ public class Player : MonoBehaviour, ISubject, IObserver
                 break;
         }
     }
+
+
+    // ============ Subcriber Pattern END ============
 
 
     private void SyncWithGameloop()
@@ -153,5 +160,4 @@ public class Player : MonoBehaviour, ISubject, IObserver
         GetComponent<SpriteRenderer>().enabled = !rendererPause;
         // mr.enabled = !rendererPause;
     }
-
 }
