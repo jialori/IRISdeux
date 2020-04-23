@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class UI_Gameover_Score : MonoBehaviour
+public class UI_Score_gameover : MonoBehaviour
 {
 	private Text scoreText;
 

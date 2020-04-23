@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using Interfaces;
 
-public class UI_Ingame_Score : MonoBehaviour, IObserver
+public class UI_Score_ingame : MonoBehaviour, IObserver
 {
 	private Text scoreText;
 
@@ -45,6 +45,7 @@ public class UI_Ingame_Score : MonoBehaviour, IObserver
     {
         switch (GameLoop.State)
         {
+            case SettingsMenuState state_settingsmenu:
             case InGameState state_ingame:
                 RenderScore(true);
                 break;

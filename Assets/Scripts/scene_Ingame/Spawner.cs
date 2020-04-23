@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using Interfaces;
 
 public class Spawner : MonoBehaviour, IObserver
@@ -28,7 +26,7 @@ public class Spawner : MonoBehaviour, IObserver
         if (timeBtwSpawnInst <= 0)
         {
         	int rand = Random.Range(0, obstaclePatterns.Length);
-        	Instantiate(obstaclePatterns[rand], transform.position, Quaternion.identity);
+            Instantiate(obstaclePatterns[rand], transform.position, Quaternion.identity);
         	timeBtwSpawnInst = timeBtwSpawn;
         	if (timeBtwSpawn >= minTimeBtwSpawn) {
         		timeBtwSpawn -= timeBtwSpawnDecrement;

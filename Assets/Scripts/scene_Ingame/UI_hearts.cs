@@ -52,6 +52,7 @@ public class UI_hearts : MonoBehaviour, IObserver
     {
         switch (GameLoop.State)
         {
+            case SettingsMenuState state_settingsmenu:
             case InGameState state_ingame:
                 RenderHearts(true);
                 break;

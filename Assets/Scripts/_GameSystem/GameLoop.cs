@@ -46,7 +46,10 @@ public class InGameState : GameState
 	// public LevelRecord;
 	// public override bool HandleInput() {}
 	// public override void RegUpdate() {}	
-	// public override void Enter() {}	
+	public override void Enter() {
+		// set focus to the game scene, so spawner instantiates in the right scene
+    	SceneManagerExt.SetActiveScene(SceneManagerExt.CurLevel);	
+	}	
 }
 
 public class GameLoop : MonoBehaviour, ISubject

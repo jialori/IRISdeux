@@ -83,6 +83,12 @@ public class SceneManagerExt
     	}	
 	}
 
+
+	public static void SetActiveScene(int buildIndex)
+	{
+		SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex(buildIndex));
+	}	
+
 	// ============ Functions correponsing to SceneManager functions END ============
 
 

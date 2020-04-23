@@ -10,6 +10,7 @@
 
 抽象思考进行不下去的时候，就从底层开始直接开始写/想，这样可以找到思路。
 
+坑： even Unity needs restarting to fix itself sometimes... oh well I guess it is in the core of every software & hardware...
 
 # 2020-04-21
 add SceneManagerExt, an extension to SceneManager that fixes the isLoaded delayed update.
