@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameInfoTracker : MonoBehaviour
+public class GameInfoTracker
 {
-
 	// Tracks the lastest played game's info
 	//
 	// Used by:
@@ -17,15 +16,35 @@ public class GameInfoTracker : MonoBehaviour
 	// - level
 	// - level progress
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+	private static GameRecord gameRecord;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+
+	public static void NewGameRecord(Player player, int level, AudioSource audio)
+	{
+		gameRecord = new GameRecord(player, level, audio);  
+	}
+
+
+	public static GameRecord GameRecord
+	{
+		get => gameRecord;
+	}
+
+	
+	public static int Level
+	{
+		get => gameRecord.level;
+	}
+
+	public static int Score
+	{
+		get => gameRecord.score;
+	}
+
+
+	public static Player Player
+	{
+		get => gameRecord.player;
+	}
+
 }

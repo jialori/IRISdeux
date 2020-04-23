@@ -15,9 +15,7 @@ public class AudioSpeaker : MonoBehaviour, IObserver
 	void Start()
     {
         GameLoop.Instance.Attach(this);
-
-        _audioSource = GetComponent<AudioSource>();
-        _audioSource.Pause();
+        SyncWithGameloop();        
     }
 
     void OnDestroy()
@@ -30,17 +28,30 @@ public class AudioSpeaker : MonoBehaviour, IObserver
        switch (subject)
         {
             case GameLoop gp:
-                switch (GameLoop.State)
-                {
-                    case InGameState state_ingame:
-				        _audioSource.Play();
-                        break;
-                    default:
-				        _audioSource.Pause();
-                        break;
-                }
+                SyncWithGameloop();
                 break;
         }
     }
 
+
+    private void SyncWithGameloop()
+    {
+        switch (GameLoop.State)
+        {
+            case InGameState state_ingame:
+                _audioSource.Play();
+                // if (_audioSource.time == 0f) {
+                //     _audioSource.Play();
+                // } else {
+                //     _audioSource.UnPause();
+                // }
+                break;
+            case SettingsMenuState state_settingsmenu:
+                _audioSource.Pause();
+                break;
+            default:
+                _audioSource.Pause();
+                break;
+        }
+    }
 }

@@ -19,9 +19,18 @@ public class UI_hearts : MonoBehaviour, IObserver
     {
     	Player.Instance.Attach(this);
         GameLoop.Instance.Attach(this);
-
-        RenderHearts(false);
+        SyncWithGameloop();
     }
+
+
+    void OnDestroy()
+    {
+        Player.Instance.Detach(this);
+        GameLoop.Instance.Detach(this);    
+
+        _hearts.Clear();    
+    }
+
 
     public void UpdateOnChange(ISubject subject) 
     {
@@ -33,18 +42,25 @@ public class UI_hearts : MonoBehaviour, IObserver
                 break;
 
             case GameLoop gp:
-                switch (GameLoop.State)
-                {
-                    case InGameState state_ingame:
-                        RenderHearts(true);
-                        break;
-                    default:
-                        RenderHearts(false);
-                        break;
-                }
+                SyncWithGameloop();
                 break;
         }
     }
+
+
+    private void SyncWithGameloop()
+    {
+        switch (GameLoop.State)
+        {
+            case InGameState state_ingame:
+                RenderHearts(true);
+                break;
+            default:
+                RenderHearts(false);
+                break;
+        }
+    }
+
 
     void RenderHearts(bool b)
     {
@@ -59,11 +75,4 @@ public class UI_hearts : MonoBehaviour, IObserver
         }
     }
 
-    void OnDestroy()
-    {
-        Player.Instance.Detach(this);
-        GameLoop.Instance.Detach(this);    
-
-        _hearts.Clear();    
-    }
 }

@@ -12,18 +12,15 @@ public class StartMenuButtons : MonoBehaviour, IObserver
 
 	void Awake()
 	{
-        inactive = true;
+        // inactive = true;
 	}
 
 
     void Start()
     {
         GameLoop.Instance.Attach(this);            
-        // if (GameLoop.Instance == null)
-        // {
-            // Debug.Log("no gameloop yet");
-        // } else {
-        // }
+        SyncWithGameloop();
+
     }
 
 
@@ -74,19 +71,25 @@ public class StartMenuButtons : MonoBehaviour, IObserver
         switch (subject)
         {
             case GameLoop gp:
-                switch (GameLoop.State)
-                {
-                    case SongMenuState state_songmenu:
-                        inactive = false; 
-                        break;
-                    default:
-                        inactive = true;
-                        break;
-                }
+                SyncWithGameloop();
                 break;
         }
     }
     // ========== Subscription END ==========
+
+
+    private void SyncWithGameloop()
+    {
+        switch (GameLoop.State)
+        {
+            case SongMenuState state_songmenu:
+                inactive = false; 
+                break;
+            default:
+                inactive = true;
+                break;
+        }
+    }
 
 
 }

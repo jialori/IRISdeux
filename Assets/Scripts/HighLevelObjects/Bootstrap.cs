@@ -13,6 +13,7 @@ public class Bootstrap : MonoBehaviour
         if (SceneManager.sceneCount > 1) return; 
 
 
+        // todo: sort out what needs to be bootstrapped when
         // add to SceneManagerExt upon prpgram started
         SceneManagerExt.NotifySceneIsLoaded(gameObject.scene.buildIndex);
 

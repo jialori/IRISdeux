@@ -18,7 +18,10 @@ public class Spawner : MonoBehaviour, IObserver
     void Start()
     {
         GameLoop.Instance.Attach(this);
-        pause = true;
+        SyncWithGameloop();
+        // pause = true;
+
+        Debug.Log("spawner started!");
     }
 
     void Update()
@@ -39,6 +42,7 @@ public class Spawner : MonoBehaviour, IObserver
         }
     }
 
+
     void OnDestroy()
     {
         GameLoop.Instance.Detach(this);        
@@ -50,17 +54,30 @@ public class Spawner : MonoBehaviour, IObserver
         switch (subject)
         {
             case GameLoop gp:
-                switch (GameLoop.State)
-                {
-                    case InGameState state_ingame:
-                        pause = false;
-                        break;
-                    default:
-                        pause = true;
-                        break;
-                }
+                SyncWithGameloop();
                 break;
         }
+    }
+
+
+
+    private void SyncWithGameloop()
+    {
+        switch (GameLoop.State)
+        {
+            case InGameState state_ingame:
+                Pause(false);
+                break;
+            default:
+                Pause(true);
+                break;
+        }
+    }
+
+
+    private void Pause(bool b)
+    {
+        pause = b;
     }
 
 }

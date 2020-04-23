@@ -15,9 +15,16 @@ public class UI_Score : MonoBehaviour, IObserver
     {
     	Player.Instance.Attach(this);
         GameLoop.Instance.Attach(this);
-
-        RenderScore(false);
+        SyncWithGameloop();
     }
+
+
+    void OnDestroy()
+    {
+        Player.Instance.Detach(this);
+        GameLoop.Instance.Detach(this);      
+    }
+
 
     public void UpdateOnChange(ISubject subject) 
     {
@@ -28,27 +35,29 @@ public class UI_Score : MonoBehaviour, IObserver
                 break;
 
             case GameLoop gp:
-                switch (GameLoop.State)
-                {
-                    case InGameState state_ingame:
-                        RenderScore(true);
-                        break;
-                    default:
-                        RenderScore(false);
-                        break;
-                }
+                SyncWithGameloop();
                 break;
         }
     }
+
+
+    private void SyncWithGameloop()
+    {
+        switch (GameLoop.State)
+        {
+            case InGameState state_ingame:
+                RenderScore(true);
+                break;
+            default:
+                RenderScore(false);
+                break;
+        }
+    }
+
 
     void RenderScore(bool b)
     {
         scoreText.enabled = b;
     }
 
-    void OnDestroy()
-    {
-        Player.Instance.Detach(this);
-        GameLoop.Instance.Detach(this);      
-    }
 }

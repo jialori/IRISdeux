@@ -7,6 +7,7 @@ public class SettingsMenuButtons : MonoBehaviour
     public void Resume()
     {
     	SceneManagerExt.UnloadSceneAsync(this.gameObject.scene.buildIndex);
+        GameLoop.State = GameState.ingameState;
     }
 
 
@@ -14,6 +15,7 @@ public class SettingsMenuButtons : MonoBehaviour
     {
     	SceneManagerExt.UnloadSceneAsync(this.gameObject.scene.buildIndex);
 		ReloadCurLevel();
+        GameLoop.State = GameState.ingameState;
     }
 
 
@@ -22,6 +24,7 @@ public class SettingsMenuButtons : MonoBehaviour
     	SceneManagerExt.UnloadSceneAsync(this.gameObject.scene.buildIndex);
 		ReloadCurLevel();
     	SceneManagerExt.LoadScene_u(Macro.IDX_STARTMENU, LoadSceneMode.Additive);
+        GameLoop.State = GameState.songmenuState;
     }
 
 

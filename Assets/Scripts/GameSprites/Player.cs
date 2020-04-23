@@ -28,15 +28,15 @@ public class Player : MonoBehaviour, ISubject, IObserver
         }
 
         _instance = this;
+
+        animator = this.GetComponent<Animator>();
     }
     // ======== Singleton End =========
 
     void Start()
     {
         GameLoop.Instance.Attach(this);
-
-        animator = this.GetComponent<Animator>();
-        Activate(false);
+        SyncWithGameloop();
     }
 
     // Update is called once per frame
@@ -114,25 +114,44 @@ public class Player : MonoBehaviour, ISubject, IObserver
         switch (subject)
         {
             case GameLoop gp:
-                switch (GameLoop.State)
-                {
-                    case InGameState state_ingame:
-                        Activate(true);
-                        break;
-                    default:
-                        Activate(false);
-                        break;
-                }
+                SyncWithGameloop();
                 break;
         }
     }
 
-    private void Activate(bool b)
+
+    private void SyncWithGameloop()
     {
-        pause = !b;
-        animator.enabled = b;
+        switch (GameLoop.State)
+        {
+            case InGameState state_ingame:
+                Pause(false);
+                break;
+            case SettingsMenuState state_settingsmenu:
+                Pause(true, true, false);
+                break;
+            default:
+                Pause(true);
+                break;
+        }
+    }
+
+
+    private void Pause(bool b)
+    {
+        pause = b;
+        animator.enabled = !b;
         SpriteRenderer mr = GetComponent<SpriteRenderer>();
-        mr.enabled = b;                
+        mr.enabled = !b;
+    }
+
+
+    private void Pause(bool b, bool animatorPause, bool rendererPause)
+    {
+        pause = b;
+        animator.enabled = !animatorPause;
+        GetComponent<SpriteRenderer>().enabled = !rendererPause;
+        // mr.enabled = !rendererPause;
     }
 
 }

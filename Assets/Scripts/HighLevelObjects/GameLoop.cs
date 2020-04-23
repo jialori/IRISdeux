@@ -131,6 +131,7 @@ public class GameLoop : MonoBehaviour, ISubject
     // Notify all observers about an event.
     public void Notify()
     {
+    	Debug.Log(_state.ToString());
         foreach (var observer in _observers)
         {
             observer.UpdateOnChange(this);

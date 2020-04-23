@@ -1,6 +1,7 @@
 # 2020-04-22
-add GameOver scene (buttons not working!!!)
-
+add menus: settings and gameover (w/o FSM change yet)
+add menus: settings (w FSM change yet)
+refactor UpdateOnChange() structures so subscribers adjust to gameloop state upon start
 
 # 2020-04-21
 add SceneManagerExt, an extension to SceneManager that fixes the isLoaded delayed update.

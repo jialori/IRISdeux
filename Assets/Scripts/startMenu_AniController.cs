@@ -1,17 +1,32 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Interfaces;
 
-public class startMenu_AniController : MonoBehaviour
+public class startMenu_AniController : MonoBehaviour, IObserver
 {
-	public List<Animator> openAnimations = new List<Animator>();
+	public List<Animator> animators = new List<Animator>();
 	private static int countCompleted = 0; 
 	private static int countTotal;
 
     void Awake()
     {
-        countTotal = openAnimations.Count;
+        countTotal = animators.Count;
+        SyncWithGameloop();
     }
+
+
+    void Start()
+    {
+        GameLoop.Instance.Attach(this);
+    }
+
+
+    void OnDestroy()
+    {
+        GameLoop.Instance.Detach(this);
+    }
+
 
     public static void NotifyAnimationCompletion(Animator am)
     {
@@ -21,4 +36,37 @@ public class startMenu_AniController : MonoBehaviour
     	}
     }
 
+
+    public void UpdateOnChange(ISubject subject) 
+    {
+        switch (subject)
+        {
+            case GameLoop gp:
+                SyncWithGameloop();
+                break;
+        }
+    }
+
+
+    private void SyncWithGameloop()
+    {
+        Debug.Log("aniController: gameloop change has been notified!");
+
+        switch (GameLoop.State)
+        {
+            case SongMenuState state_songmenu:
+                PlayIdleAnimations();
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void PlayIdleAnimations()
+    {
+        foreach (Animator animator in animators)
+        {
+            animator.Play("Idle");
+        }
+    }
 }
