@@ -1,3 +1,29 @@
+# 2020-04-23
+I'm pausing development to focus on the gameplay design for a bit. It is also a great time to re-look at the code wirtten for casual improvement.
+
+**list of things learnt (C#)**
+static constructor: if not used, static variables will be initialized with default values.
+dictionary operation: unlike python's syntax (dict['a'] = 2, the same syntax is used for adding and re-assigning values), .Add() adds an entry, and Add() & Remove() are mixed to reassign values, since no built-in re-assignment method is provided.
+C# pointer:
+C# parameter passing \[read the MS document, really helpful\]: normally the primitive value types are passed by value, and the reference types (objects, arrays, etc.) are passed by reference.
+- so changing elements of reference types will affect on the caller; but re-assigning the variable to a new object/array/... would not  
+- `ref` modifier: abstractly bahaviour is that *any* change (including re-assignment) on the parameter reflects on the argument. the argument's memory address will be replaced by the parameter's memory address upon completion of the method call.  
+- `out` modifier
+- `in` modifier: passed by reference (for reference types, what happens is a reference of the memory address is passed), cannot be modified (but operations & method-calling on it allowed); pretty much only useful for `struct` (belongs to value types)
+- c# types can be divided into "reference types" and "values types"
+
+C# object copy: assignment operator for objects performs pass by value (shallow copy?)
+
+
+still worked a little bit:
+fix SetActive on a level scene load upon transferring into ingameState. 
+-previous: SectActive() in ingameState.Enter() \[natural, but sequence of execution in Unity lifecycles does not allow this to happen - Scene is not loaded right after LoadScene is called, but by the end of the frame or something like that, so SetActive() on the same frame cannot work\]
+-now: SetActive() in sceneLoaded in the SceneManager + conditions filter. so it will be called upon every scene loaded.
+
+todo:
+iterator methods &/ design pattern;
+
+
 # 2020-04-22
 - add menus: settings and gameover (w/o FSM change yet)
 - add menus: settings (w FSM change yet)

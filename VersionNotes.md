@@ -20,5 +20,6 @@
 ### ToDo
 - [x] fix settingsmenu button appearance 
 - [x] track Score & GameInfo [tis a system :D]
+- [x] clean up / relook at the Bootstrap.cs script
 
-- [] clean up / relook at the Bootstrap.cs script
+- [] bug: setactivescene() is time-variant.. so it returns error (no harm though)

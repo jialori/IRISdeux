@@ -32,7 +32,6 @@ public class SceneManagerExt
 		}
 	}
 
-
 	// ============ Functions correponding to SceneManager functions ============
 
 	public static bool IsLoaded(int buildIndex)

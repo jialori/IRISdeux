@@ -46,11 +46,9 @@ public class InGameState : GameState
 	// public LevelRecord;
 	// public override bool HandleInput() {}
 	// public override void RegUpdate() {}	
-	public override void Enter() {
-		// set focus to the game scene, so spawner instantiates in the right scene
-    	SceneManagerExt.SetActiveScene(SceneManagerExt.CurLevel);	
-	}	
+	// public override void Enter() {}
 }
+
 
 public class GameLoop : MonoBehaviour, ISubject
 {
@@ -94,7 +92,19 @@ public class GameLoop : MonoBehaviour, ISubject
 		State = GameState.aniState; // will set isDirty to true
     	State.HandleInput();
 
+    	// ensures all instantiations stay in the current level scene.
+		SceneManager.sceneLoaded += SetLevelActiveOnLoaded;		
 	}
+
+
+	void SetLevelActiveOnLoaded(Scene scene, LoadSceneMode mode)
+	{
+		if (GameLoop.State == GameState.ingameState && Macro.IsLevel(scene.buildIndex))
+		{
+			SceneManagerExt.SetActiveScene(SceneManagerExt.CurLevel);
+		}
+	}
+
     // ======== Singleton END ==========
 
 
