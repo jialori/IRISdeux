@@ -53,9 +53,7 @@ public class GameLoop : MonoBehaviour, ISubject
 {
 	private static bool isDirty;
 
-	// There are two ways to set the _state
-	// 1. Within GameState's HandleInput()
-	// 2. Use of State's setter from outside of this class
+	// used to set the _state
 	private static GameState _state;
 	public static GameState State 
 	{

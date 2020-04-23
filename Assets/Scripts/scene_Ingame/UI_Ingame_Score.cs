@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using Interfaces;
 
-public class UI_Score : MonoBehaviour, IObserver
+public class UI_Ingame_Score : MonoBehaviour, IObserver
 {
 	private Text scoreText;
 

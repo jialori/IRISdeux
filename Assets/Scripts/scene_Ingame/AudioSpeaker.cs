@@ -7,6 +7,8 @@ public class AudioSpeaker : MonoBehaviour, IObserver
 {
     AudioSource _audioSource;
 
+    // todo: can be singleton? one game only has one background music
+
     void Awake()
     {
         _audioSource = GetComponent<AudioSource>();

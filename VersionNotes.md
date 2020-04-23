@@ -18,4 +18,5 @@
 
 
 ### ToDo
-- [] Fix settingsmenu button appearance 
+- [] fix settingsmenu button appearance 
+- [x] track Score & GameInfo [tis a system :D]

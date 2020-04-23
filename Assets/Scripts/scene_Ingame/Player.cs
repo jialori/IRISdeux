@@ -5,14 +5,14 @@ using Interfaces;
 
 public class Player : MonoBehaviour, ISubject, IObserver
 {
-	public float health;
 	public float speed;
 	public float yIncrement;
 	public float yMin;
 	public float yMax;
 
-    // todo: This should not be recorded here - have a LevelRecord that stores player, score, progress, etc.
+    // store somewhere else?
     public float score;
+    public float health;
 
     private Animator animator;
     private bool pause;
@@ -72,6 +72,7 @@ public class Player : MonoBehaviour, ISubject, IObserver
 
         if (health <= 0) {
             GameLoop.State = GameState.gameovermenuState;
+            GameInfoTracker.UpdateScore(score);
         }
     }
 

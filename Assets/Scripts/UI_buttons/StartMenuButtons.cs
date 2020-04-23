@@ -37,7 +37,8 @@ public class StartMenuButtons : MonoBehaviour, IObserver
     	SceneManagerExt.UnloadSceneAsync(Macro.IDX_STARTMENU);
 
     	// Change GameLoop's state
-    	if (GameLoop.State != null) GameLoop.State = GameState.ingameState;
+    	GameLoop.State = GameState.ingameState;
+        GameInfoTracker.NewGameRecord(SceneManagerExt.CurLevel);
     }
  
 
