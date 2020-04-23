@@ -13,31 +13,20 @@ public class Bootstrap : MonoBehaviour
         if (SceneManager.sceneCount > 1) return; 
 
 
-        // todo: sort out what needs to be bootstrapped when
-        // add to SceneManagerExt upon prpgram started
         SceneManagerExt.NotifySceneIsLoaded(gameObject.scene.buildIndex);
 
-        int buildIndex = gameObject.scene.buildIndex;
-        if (Macro.IsMenu(buildIndex)) {
+        // todo: sort out what needs to be bootstrapped when
+        // add to SceneManagerExt upon prpgram started        
 
-        } 
-        else if (Macro.IsLevel(buildIndex))
+        // game logic & dev/test logic
+
+        LoadAndInstantiateGameLoop();
+
+        if (!Macro.IsMenu(gameObject.scene.buildIndex)) 
         {
             LoadFreshStartScenes();
+            LoadLevelScene();
         }
-
-        AddGameLoop();
-
-        switch (gameObject.scene.buildIndex)
-        {
-            case (Macro.IDX_STARTMENU):
-                SceneManagerExt.LoadScene_u(Macro.IDX_FIRSTLEVEL, LoadSceneMode.Additive);
-                break;
-
-            default:
-                break;
-        }
-
     }
 
     void LoadFreshStartScenes()
@@ -52,7 +41,7 @@ public class Bootstrap : MonoBehaviour
         }
     } 
 
-    void AddGameLoop()
+    void LoadAndInstantiateGameLoop()
     {
         if (GameLoop.Instance == null)
         {
@@ -67,5 +56,14 @@ public class Bootstrap : MonoBehaviour
             GameObject GameLoopObj_inst = Instantiate(GameLoopObj);
             SceneManager.MoveGameObjectToScene(GameLoopObj_inst, SceneManager.GetSceneByBuildIndex(Macro.IDX_GAMELOOP));
         }        
+    }
+
+
+    void LoadLevelScene()
+    {
+        if (SceneManagerExt.CurLevel == -1)
+        {
+            SceneManagerExt.LoadScene_u(Macro.IDX_FIRSTLEVEL, LoadSceneMode.Additive);
+        }
     }
 }

@@ -18,5 +18,7 @@
 
 
 ### ToDo
-- [] fix settingsmenu button appearance 
+- [x] fix settingsmenu button appearance 
 - [x] track Score & GameInfo [tis a system :D]
+
+- [] clean up / relook at the Bootstrap.cs script
