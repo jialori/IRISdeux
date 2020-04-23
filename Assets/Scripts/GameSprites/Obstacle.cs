@@ -43,7 +43,6 @@ public class Obstacle : MonoBehaviour, IObserver
     	}
         else if (other.gameObject.CompareTag("Boundary")) {
             Player.Instance.IncrementScore(1);
-            Debug.Log("self-destroyred");
             Destroy(transform.parent.gameObject);
         }
     }

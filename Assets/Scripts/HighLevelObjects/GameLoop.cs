@@ -13,11 +13,11 @@ public class GameState
 	public static InGameState ingameState = new InGameState();
 
 	// Returns True in case of state switch 
-	public virtual bool HandleInput(GameLoop game) {return false;}
+	public virtual bool HandleInput() {return false;}
 
-	public virtual void RegUpdate(GameLoop game) {}
+	public virtual void RegUpdate() {}
 
-	public virtual void Enter(GameLoop game) {}
+	public virtual void Enter() {}
 }
 
 public class AnimationState : GameState
@@ -34,9 +34,8 @@ public class SettingsMenuState : GameState
 
 public class GameoverMenuState : GameState
 {
-	public void Enter() 
+	public override void Enter() 
 	{
-		// SceneManagerExt.UnloadSceneAsync();
 		SceneManagerExt.LoadScene_u(Macro.IDX_GAMEOVERMENU, LoadSceneMode.Additive);
 	}	
 
@@ -92,7 +91,7 @@ public class GameLoop : MonoBehaviour, ISubject
 		isDirty = false;
 
 		State = GameState.aniState; // will set isDirty to true
-    	State.HandleInput(this);
+    	State.HandleInput();
 
 	}
     // ======== Singleton END ==========
@@ -101,14 +100,14 @@ public class GameLoop : MonoBehaviour, ISubject
     void Update()
     {
     	// Game State control
-    	_state.HandleInput(this);
+    	_state.HandleInput();
     	if (isDirty) 
     	{
-    		_state.Enter(this);
+    		_state.Enter();
     		Notify();
     		isDirty = false;
     	}
-    	_state.RegUpdate(this);
+    	_state.RegUpdate();
 
     	// Other...
 

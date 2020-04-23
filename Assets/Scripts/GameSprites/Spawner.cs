@@ -19,9 +19,6 @@ public class Spawner : MonoBehaviour, IObserver
     {
         GameLoop.Instance.Attach(this);
         SyncWithGameloop();
-        // pause = true;
-
-        Debug.Log("spawner started!");
     }
 
     void Update()

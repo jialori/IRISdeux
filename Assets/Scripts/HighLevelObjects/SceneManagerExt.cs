@@ -73,7 +73,6 @@ public class SceneManagerExt
 	// does NOT return intterrupt if attempting to unload a scene that is not loaded
 	public static void UnloadSceneAsync(int buildIndex)
 	{
-		Debug.Log(buildIndex.ToString());
     	if (scenesToLoaded[buildIndex]) {
 			// scenesToLoaded[buildIndex] = false;	
 			scenesToLoaded.Remove(buildIndex);

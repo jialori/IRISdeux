@@ -50,8 +50,6 @@ public class startMenu_AniController : MonoBehaviour, IObserver
 
     private void SyncWithGameloop()
     {
-        Debug.Log("aniController: gameloop change has been notified!");
-
         switch (GameLoop.State)
         {
             case SongMenuState state_songmenu:

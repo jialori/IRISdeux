@@ -6,9 +6,9 @@ public class GameoverMenuButtons : MonoBehaviour
     // todo: FSM change
     public void PlayAgain()
     {
-        Debug.Log("helloooo");
         SceneManagerExt.UnloadSceneAsync(this.gameObject.scene.buildIndex);
         ReloadCurLevel();
+        GameLoop.State = GameState.ingameState;
     }
 
 
@@ -17,6 +17,7 @@ public class GameoverMenuButtons : MonoBehaviour
         SceneManagerExt.UnloadSceneAsync(this.gameObject.scene.buildIndex);
         ReloadCurLevel();
         SceneManagerExt.LoadScene_u(Macro.IDX_STARTMENU, LoadSceneMode.Additive);
+        GameLoop.State = GameState.songmenuState;
     }
 
 

@@ -1,8 +1,10 @@
 # 2020-04-22
-add menus: settings and gameover (w/o FSM change yet)
-add menus: settings (w FSM change yet)
-refactor UpdateOnChange() structures so subscribers adjust to gameloop state upon start
+-add menus: settings and gameover (w/o FSM change yet)
+-add menus: settings (w FSM change yet)
+-refactor UpdateOnChange() structures so subscribers adjust to gameloop state upon start
 *sequeces of executions really can have multiple orders with different scene changes, thus code should ideally be order-invariant.*
+-align canvas sizes and camera settings across scenes
+-add menus: gameover (w FSM change yet)
 
 
 
