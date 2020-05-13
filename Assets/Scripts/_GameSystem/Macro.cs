@@ -1,16 +1,28 @@
 ﻿public static class Macro {
+
+	/*	
+	 *  Assumptions
+	 * 	- The last sequence of build scenes are all Level scenes
+	 *  - ...
+	 *  - 
+	 *  - 
+	 */	
 	
 	public const int IDX_GAMELOOP = 0;
 	public const int IDX_STARTMENU = 1;
 	public const int IDX_GAMEOVERMENU = 2;
 	public const int IDX_SETTINGSMENU = 3;	
-	// Assumption:
-	//  The last sequence of build scenes are all Level scenes
-	//  beginning at this index
+	// The beginning index of the sequence of level scenes
 	public const int IDX_FIRSTLEVEL = 4;
 
-	public static int[] IDX_All_FRESHSTART = {IDX_GAMELOOP, 
-											  IDX_STARTMENU}; // starting the app
+
+	/* User-defined sets */
+	public static int[] IDX_All_STANDARDSTART = {
+												IDX_GAMELOOP, 
+											  	IDX_STARTMENU
+
+											  	}; // Standard Start
+
 
 	private static int[] range_menus = {1, 3};
 	private static int[] range_levels = {4, 5};

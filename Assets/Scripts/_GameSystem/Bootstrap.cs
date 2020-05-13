@@ -5,43 +5,36 @@ using UnityEngine.SceneManagement;
 // of other components. 
 public class Bootstrap : MonoBehaviour
 {
-	public GameObject GameLoopObj;
+    public GameObject GameLoopObj;
 
     void Awake()
     {
-        // do nothing if not bootstrapping
+        // DO NOTHING if this script is awake in non-bootstrapping condition
         if (SceneManager.sceneCount > 1) return; 
 
 
-        SceneManagerExt.NotifySceneIsLoaded(gameObject.scene.buildIndex);
-
+        // BOOSTSTRAPPING
         // todo: sort out what needs to be bootstrapped when
         // add to SceneManagerExt upon prpgram started        
+        // game logic & dev/test logic to be separated
 
-        // game logic & dev/test logic
+        SceneManagerExt.NotifySceneIsLoaded(gameObject.scene.buildIndex);
 
-        LoadAndInstantiateGameLoop();
-
-        if (!Macro.IsMenu(gameObject.scene.buildIndex)) 
+        int buildIndex = gameObject.scene.buildIndex;
+        if (Macro.IsMenu(buildIndex) && buildIndex != Macro.IDX_STARTMENU) 
         {
-            LoadFreshStartScenes();
-            LoadLevelScene();
+            Spawn_GameLoop();
+        }
+        else
+        {
+            Spawn_GameLoop();       
+            Load_StandardStartScenes();
+            Load_FirstLevelScene();
         }
     }
 
-    void LoadFreshStartScenes()
-    {
-        foreach (int i in Macro.IDX_All_FRESHSTART)
-        {
-            if (!SceneManagerExt.IsLoaded(i))
-            {
-                Debug.Log("Scene" + i.ToString() + " is missing, additively load");
-                SceneManagerExt.LoadScene_u(i, LoadSceneMode.Additive);
-            }
-        }
-    } 
 
-    void LoadAndInstantiateGameLoop()
+    void Spawn_GameLoop()
     {
         if (GameLoop.Instance == null)
         {
@@ -59,7 +52,20 @@ public class Bootstrap : MonoBehaviour
     }
 
 
-    void LoadLevelScene()
+    void Load_StandardStartScenes()
+    {
+        foreach (int i in Macro.IDX_All_STANDARDSTART)
+        {
+            if (!SceneManagerExt.IsLoaded(i))
+            {
+                Debug.Log("Scene" + i.ToString() + " is missing, additively load");
+                SceneManagerExt.LoadScene_u(i, LoadSceneMode.Additive);
+            }
+        }
+    } 
+
+
+    void Load_FirstLevelScene()
     {
         if (SceneManagerExt.CurLevel == -1)
         {

@@ -34,9 +34,6 @@ public class StartMenuButtons : MonoBehaviour, IObserver
     {
         if (inactive) return;
 
-    	SceneManagerExt.UnloadSceneAsync(Macro.IDX_STARTMENU);
-
-    	// Change GameLoop's state
     	GameLoop.State = GameState.ingameState;
         GameInfoTracker.NewGameRecord(SceneManagerExt.CurLevel);
     }
@@ -54,13 +51,13 @@ public class StartMenuButtons : MonoBehaviour, IObserver
     }
  
 
-    public void ToLastLevel() 
+    public void ToPreviousLevel() 
     {
         if (inactive) return;
 
     	if (SceneManagerExt.CurLevel == -1) return;
 
-        int lastLevel = SceneManagerExt.GetLastLevelBuildIdx();
+        int lastLevel = SceneManagerExt.GetPreviousLevelBuildIdx();
     	SceneManagerExt.UnloadSceneAsync(SceneManagerExt.CurLevel);
     	SceneManagerExt.LoadSceneAsync_u(lastLevel, LoadSceneMode.Additive);
     }

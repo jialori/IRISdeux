@@ -18,6 +18,8 @@ public class GameState
 	public virtual void RegUpdate() {}
 
 	public virtual void Enter() {}
+
+	public virtual void Exit() {}
 }
 
 public class AnimationState : GameState
@@ -27,20 +29,57 @@ public class AnimationState : GameState
 }
 
 public class SongMenuState : GameState
-{}
+{
+	public override void Exit()
+	{
+        SceneManagerExt.UnloadSceneAsync(Macro.IDX_STARTMENU);
+	}
+
+	public override void Enter() 
+	{
+    	SceneManagerExt.LoadScene_u(Macro.IDX_STARTMENU, LoadSceneMode.Additive);
+    	SceneManagerExt.LoadScene_u(SceneManagerExt.CurLevel, LoadSceneMode.Additive);
+	}	
+}
 
 public class SettingsMenuState : GameState
-{}
+{
+	public override void Exit()
+	{
+    	SceneManagerExt.UnloadSceneAsync(Macro.IDX_SETTINGSMENU);
+	}
+
+	public override void Enter() 
+	{
+		SceneManagerExt.LoadScene_u(Macro.IDX_SETTINGSMENU, LoadSceneMode.Additive);
+	}	
+}
 
 public class GameoverMenuState : GameState
 {
+	public override void Exit()
+	{
+    	SceneManagerExt.UnloadSceneAsync(Macro.IDX_GAMEOVERMENU);
+	}
+
 	public override void Enter() 
 	{
 		SceneManagerExt.LoadScene_u(Macro.IDX_GAMEOVERMENU, LoadSceneMode.Additive);
 	}	
-
 }
 
+
+/*TODO: 
+	Maybe have another FSM for the *level scene* to separate its logic from the *UI scenes*'s' logic,
+	since they are parallel rather than exclusive.
+
+	E.G.
+
+	level scene is on during ingame, 
+	on and paused during settings, 
+	display only (off, maybe have GIFs for each level) during song menu 
+
+  */
 public class InGameState : GameState
 {
 	// public LevelRecord;
@@ -54,7 +93,7 @@ public class GameLoop : MonoBehaviour, ISubject
 {
 	private static bool isDirty;
 
-	// used to set the _state
+	// Properties
 	private static GameState _state;
 	public static GameState State 
 	{
@@ -64,19 +103,17 @@ public class GameLoop : MonoBehaviour, ISubject
 		{
 			if (value != _state)
 			{
+				_state?.Exit();
 				_state = value;
 				isDirty = true;
 			}
 		}
 	}
 
-
-    // ======== Singleton ==========
+	// Singleton Variables
 	static GameLoop _instance;
-	static public GameLoop Instance
-    {
-        get => _instance;
-    }
+	static public GameLoop Instance { get => _instance; }
+
 
 	void Awake()
 	{
@@ -87,30 +124,23 @@ public class GameLoop : MonoBehaviour, ISubject
 
 		_instance = this;
 
+
 		isDirty = false;
-
-		State = GameState.aniState; // will set isDirty to true
-    	State.HandleInput();
-
-    	// ensures all instantiations stay in the current level scene.
-		SceneManager.sceneLoaded += SetLevelActiveOnLoaded;		
+		State = GameState.aniState;
+    	// Keeps focus on the level scene.
+		SceneManager.sceneLoaded += FocusOnLevelSceneInGame;
 	}
 
 
-	void SetLevelActiveOnLoaded(Scene scene, LoadSceneMode mode)
+	void OnDestroy()
 	{
-		if (GameLoop.State == GameState.ingameState && Macro.IsLevel(scene.buildIndex))
-		{
-			SceneManagerExt.SetActiveScene(SceneManagerExt.CurLevel);
-		}
+		SceneManager.sceneLoaded -= FocusOnLevelSceneInGame;
 	}
-
-    // ======== Singleton END ==========
 
 
     void Update()
     {
-    	// Game State control
+    	// Game State routine
     	_state.HandleInput();
     	if (isDirty) 
     	{
@@ -120,9 +150,17 @@ public class GameLoop : MonoBehaviour, ISubject
     	}
     	_state.RegUpdate();
 
-    	// Other...
-
+    	// Custom code...
     }
+
+
+	void FocusOnLevelSceneInGame(Scene scene, LoadSceneMode mode)
+	{
+		if (GameLoop.State == GameState.ingameState && Macro.IsLevel(scene.buildIndex))
+		{
+			SceneManagerExt.SetActiveScene(SceneManagerExt.CurLevel);
+		}
+	}
 
 
 	// ============ Subcriber Pattern ============

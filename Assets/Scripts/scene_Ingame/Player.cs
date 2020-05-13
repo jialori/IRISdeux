@@ -61,6 +61,8 @@ public class Player : MonoBehaviour, ISubject, IObserver
 
     void OnDestroy()
     {
+        GameInfoTracker.UpdateScore(score);
+            
         GameLoop.Instance.Detach(this);
     }
 

@@ -1,5 +1,22 @@
-# 2020-04-23
-I'm pausing development to focus on the gameplay design for a bit. It is also a great time to re-look at the code wirtten for casual improvement.
+## Phase 2
+### 2020-05-13
+Rewrote parts of the game loop's code.
+Main changes are: 
+	logic of `UI scenes`' transition are moved from UI buttons to GameLoop's Enter and Exit methods, since the underlying logics are identical.
+
+todo:
+	have another FSM for the *level scene* to separate its logic from the *UI scenes*'s' logic,
+	since they are parallel rather than exclusive.
+
+
+## Phase 1
+### 2020-04-23
+- fixed SetActive on a level scene load upon transferring into ingameState. 
+	previous: SectActive() in ingameState.Enter() \[natural, but sequence of execution in Unity lifecycles does not allow this to happen - Scene is not loaded right after LoadScene is called, but by the end of the frame or something like that, so SetActive() on the same frame cannot work\]
+	now: SetActive() in sceneLoaded in the SceneManager + conditions filter. so it will be called upon every scene loaded.
+	alternative solution: use async load callback \[sounds a bit more natural\]
+
+**I'm pausing development to focus on the gameplay design for a bit.** It is also a great time to re-look at the code wirtten for casual improvement.
 
 **list of things learnt (C#)**
 static constructor: if not used, static variables will be initialized with default values.
@@ -11,20 +28,13 @@ C# parameter passing \[read the MS document, really helpful\]: normally the prim
 - `out` modifier
 - `in` modifier: passed by reference (for reference types, what happens is a reference of the memory address is passed), cannot be modified (but operations & method-calling on it allowed); pretty much only useful for `struct` (belongs to value types)
 - c# types can be divided into "reference types" and "values types"
-
 C# object copy: assignment operator for objects performs pass by value (shallow copy?)
 
-
-still worked a little bit:
-fix SetActive on a level scene load upon transferring into ingameState. 
--previous: SectActive() in ingameState.Enter() \[natural, but sequence of execution in Unity lifecycles does not allow this to happen - Scene is not loaded right after LoadScene is called, but by the end of the frame or something like that, so SetActive() on the same frame cannot work\]
--now: SetActive() in sceneLoaded in the SceneManager + conditions filter. so it will be called upon every scene loaded.
-
-todo:
+**todo:**
 iterator methods &/ design pattern;
 
 
-# 2020-04-22
+### 2020-04-22
 - add menus: settings and gameover (w/o FSM change yet)
 - add menus: settings (w FSM change yet)
 - refactor UpdateOnChange() structures so subscribers adjust to gameloop state upon start
@@ -38,7 +48,7 @@ iterator methods &/ design pattern;
 
 坑： even Unity needs restarting to fix itself sometimes... oh well I guess it is in the core of every software & hardware...
 
-# 2020-04-21
+### 2020-04-21
 add SceneManagerExt, an extension to SceneManager that fixes the isLoaded delayed update.
 
 *other:*
@@ -46,7 +56,7 @@ add SceneManagerExt, an extension to SceneManager that fixes the isLoaded delaye
 - **exp** stay focused on writing down the code first, and then debug them at once - this worked well!
 - so you should never name two things the same name unless it's for overwridding. spent 1hr on an uncared Find-Replace mistake QAQ 
 
-# 2020-04-20
+### 2020-04-20
 camera in an additively-loaded scene cannot observe canvas from the other scene.
 - turns out the issue is not with things are seperated in different scenes, it's actually because the canvas is set to be rendered by their scenes' main cameras only, so definitely no other cameras can observe them.
 Canvas: camera (observable only seen by the assigned camera, can scale according to screen), world (observable by all cameras, scale?todo) 
@@ -71,7 +81,7 @@ question:
 	which camera is used when multiple scenes are loaded?
 	static non-monobehaviour classes are useful in Unity games, but does non-static non-monobahaviour classes ever help? do they even instantiate objects? \[YES, can be instantiated and stored/referenced by monobehaviour scripts!\]
 
-# 2020-04-19
+### 2020-04-19
 decision: GameLoop is gonna stay MonoBehaviour, because of it is handling input through Update() methods. Although I could make other modules call its update method, but that feels out of place and not a natural design for now.
 making GameLoop part of a different scene: lifecycle knowledge?
 
@@ -93,7 +103,7 @@ add Opening animation
 *other:*
 	spent 1.5 hours on a typo QAQ...
 
-# 2020-04-18
+### 2020-04-18
 made FSM work in its Level Selection sub-system:
 - Bootstrap prefab in every scene to set up (all the scenes)
 - left/right & start Buttons trigger scene load

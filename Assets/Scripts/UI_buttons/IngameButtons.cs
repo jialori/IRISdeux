@@ -6,7 +6,6 @@ public class IngameButtons : MonoBehaviour, IObserver
 {
 	public void ToSettingsMenu()
 	{
-		SceneManagerExt.LoadScene_u(Macro.IDX_SETTINGSMENU, LoadSceneMode.Additive);
 		GameLoop.State = GameState.settingsmenuState;
 	}
 
@@ -47,6 +46,7 @@ public class IngameButtons : MonoBehaviour, IObserver
                 break;
         }
     }
+
 
     private void RenderButtons(bool b)
     {

@@ -128,7 +128,7 @@ public class SceneManagerExt
     }
 
 
-    public static int GetLastLevelBuildIdx()
+    public static int GetPreviousLevelBuildIdx()
     {
     	int curLevel = CurLevel;
     	if (curLevel == -1) 

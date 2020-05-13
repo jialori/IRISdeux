@@ -22,15 +22,18 @@ public class GameInfoTracker
 
 	public static float Score
 	{
-		get => gameRecord.score;
-		set => gameRecord.score = value;
+		get => (gameRecord != null) ? gameRecord.score : 0;
+		set => gameRecord.score = (gameRecord != null) ? value : 0;
 	}
 
 	public static int Level
 	{
-		get => gameRecord.level;
-		set => gameRecord.level = value;
+		get => (gameRecord != null) ? gameRecord.level : 0;
+		set => gameRecord.level = (gameRecord != null) ? value : -1;
 	}
+
+
+	static GameInfoTracker() {}
 
 
 	public static void NewGameRecord(int level)
@@ -41,7 +44,10 @@ public class GameInfoTracker
 
 	public static void UpdateScore(float newScore)
 	{
+		Debug.Log("new score: " + newScore.ToString());
 		Score = newScore;
+		Debug.Log("new score: " + GameInfoTracker.Score.ToString());
+
 	}
 }
 
